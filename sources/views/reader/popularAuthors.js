@@ -1,0 +1,52 @@
+import {JetView} from "webix-jet";
+
+export default class WindowPopularAuthorsView extends JetView {
+	config() {
+		return {
+			view: "window",
+			localId: "window",
+			width: 600,
+			height: 400,
+			position: "center",
+			modal: true,
+			borderless: true,
+
+			head: {
+				view:"toolbar", margin:-4, cols:[
+					{ view:"label", label: "", localId: "titleOfBook", template: "Popular Authors" },
+					{ view:"icon", icon:"wxi-close", click: () => {
+						this.$$("window").hide();
+					}
+					}
+				]
+			},
+			body: {
+				borderless: true,
+				rows: [
+					{
+						view: "datatable",
+						scroll: false,
+						url: "http://localhost:3016/books/popularauthors",
+						columns: [
+							{id: "authorName", header: "Author", fillspace: true, template: (obj) => {
+								return obj.authorName + " " + obj.authorSurname + " " + obj.authorPatronymic;
+							}},
+							{id: "BooksCount", header: "Books Count"},
+						]
+					}
+				]
+			}
+		};
+	}
+	showWindow() {
+		this.$windowPopularAuthors().show();
+	}
+	init() {
+	}
+	$windowPopularAuthors() {
+		return this.$$("window");
+	}
+	hideForm() {
+		this.getRoot().hide();
+	}
+}
