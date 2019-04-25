@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import FormforBookView from "./bookEditForm";
+import FormforBookView from "./editbook";
 
 export default class LibraryView extends JetView {
 	config() {

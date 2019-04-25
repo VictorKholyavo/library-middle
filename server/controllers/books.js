@@ -33,15 +33,12 @@ app.get("/", async (req, res) => {
 			switch(req.headers.filteringcolumn) {
 				case "year":
 					order = ["year", "ASC"];
-					where = {};
 					break;
 				case "pages":
 					order = ["pages", "DESC"];
-					where = {};
 					break;
 				case "title":
 					order = [Sequelize.fn('length', Sequelize.col('title')), 'DESC'];
-					where = {};
 					break;
 				case "country":
 					order = ["year", "ASC"];
@@ -67,8 +64,6 @@ app.get("/", async (req, res) => {
 				data = data.filter(function (x) {
 					return x !== undefined;
 				});
-				console.log(data);
-
 				return res.json(data);
 			}
 			else {
@@ -114,7 +109,7 @@ app.get("/popularauthors", async (req, res) => {
 	Promise.all(authorsByBooksCount).then((completed) => {
 		return res.json(completed)
 	});
-})
+});
 
 app.put("/:id", async (req, res) => {
     let updateBook = {

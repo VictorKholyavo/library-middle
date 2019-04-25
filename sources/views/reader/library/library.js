@@ -1,6 +1,6 @@
 import { JetView } from "webix-jet";
-import WindowInfoView from "./bookFullInfo";
-import WindowPopularAuthorsView from "./popularAuthors";
+import WindowInfoView from "./bookfullinfo";
+import PopularAuthorsView from "./popularauthors";
 
 export default class DataView extends JetView {
 	config() {
@@ -109,7 +109,7 @@ export default class DataView extends JetView {
 	}
 	init() {
 		this.windowInfo = this.ui(WindowInfoView);
-		this.windowPopularAuthors = this.ui(WindowPopularAuthorsView);
+		this.windowPopularAuthors = this.ui(PopularAuthorsView);
 		let windowAuthors = this.windowPopularAuthors;
 		let filteringcolumn = "";
 		let library = this.$$("library");

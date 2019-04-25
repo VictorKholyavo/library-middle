@@ -31,17 +31,17 @@ export default class MyApp extends JetApp{
 						break;
 					case "2":
 						if (url.indexOf("/admin") !== -1 || url.indexOf("/reader") !== -1 || url.indexOf("/top") !== -1) {
-							nav.redirect = "/librarian.librarianMenu/librarian.library"
+							nav.redirect = "/librarian.menu/librarian.library.library"
 						}
 						break;
 					case "1":
 						if (url.indexOf("/admin") !== -1 || url.indexOf("/librarian") !== -1 || url.indexOf("/top") !== -1) {
-							nav.redirect = "/reader.readerMenu/reader.library"
+							nav.redirect = "/reader.menu/reader.library.library"
 						}
 						break;
 				}
 			} catch (err) {
-				console.log("You are not logged");
+				webix.message({type: "error", text: "You are not logged"});
 			}
 		});
 		webix.attachEvent("onBeforeAjax",

@@ -11,6 +11,7 @@ export default class PersonalPageView extends JetView{
 					view: "template",
 					height: 40,
 					template: "Personal information",
+					borderless: true,
 					css: "headerInfo"
 				},
 				{
@@ -113,7 +114,7 @@ export default class PersonalPageView extends JetView{
 			webix.message({type: "success", text: "Your information has been updated"});
 		});
 	}
-	init(){
+	init() {
 		let form = this.$getForm();
 		webix.ajax().get("http://localhost:3016/users/user/:id").then(function (response) {
 			response = response.json();

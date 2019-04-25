@@ -51,6 +51,4 @@ export default class OrdersView extends JetView {
 	$getDatatable() {
 		return this.$$("orders");
 	}
-	init() {
-	}
 }

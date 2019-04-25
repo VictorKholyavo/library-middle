@@ -1,4 +1,5 @@
 import { JetView, plugins } from "webix-jet";
+import "./reader.css";
 
 export default class TopView extends JetView {
 	config() {
@@ -11,35 +12,55 @@ export default class TopView extends JetView {
 			select: true,
 			template: "<span class='webix_icon #icon#'></span> #value# ",
 			data: [
-				{ value: "Library", id: "reader.library", icon: "wxi-columns" },
-				{ value: "Ordered Books", id: "reader.orderedBooks", icon: "wxi-columns" },
+				{
+					value: "Library",
+					id: "reader.library.library",
+					icon: "fas fa-book"
+				},
+				{
+					value: "Ordered Books",
+					id: "reader.orders.orders",
+					icon: "fas fa-shopping-basket"
+				}
 			]
 		};
 
 		const ui = {
 			type: "clean",
-			paddingX: 5,
 			css: "app_layout",
 			rows: [
 				{
-					paddingX: 5,
-					paddingY: 10,
 					rows: [
 						{
 							type: "toolbar",
 							localId: "toolbar",
-							margin: 20,
-							paddingX: 10,
 							cols: [
-								{ view: "template", localId: "helloTemplate", template: " ", width: 240},
+								{
+									view: "template",
+									localId: "helloTemplate",
+									template: " ",
+									borderless: true,
+									css: "hello-template",
+									width: 240},
 								{},
-								{ view: "button", value: "Personal Information", width: 250, click: () => {this.show("personalPage");} },
-								{ view: "button", value: "Logout", width: 150, click: () => {this.do_logout(); window.location.reload(true); }}
+								{
+									view: "button",
+									value: "Personal Information",
+									width: 250,
+									click: () => { this.show("personalPage"); }
+								},
+								{
+									view: "button",
+									value: "Logout",
+									width: 150,
+									click: () => {this.do_logout();
+										window.location.reload(true);
+									}
+								}
 							],
 							css: "webix_dark"
 						},
 						{
-							css: "webix_shadow_medium",
 							cols: [
 								menu,
 								{
@@ -48,12 +69,6 @@ export default class TopView extends JetView {
 							]
 						}
 					]
-				},
-				{
-					type: "wide",
-					paddingY: 10,
-					paddingX: 5,
-					rows: []
 				}
 			]
 		};
@@ -64,14 +79,14 @@ export default class TopView extends JetView {
 	}
 	do_logout() {
 		const user = this.app.getService("user");
-		user.logout().catch(function () {
-			//error handler
-		});
+		user.logout();
 	}
 	init() {
 		let username = webix.storage.local.get("UserInfo").username;
 		this.$getHelloTemplate().define({template: "Hi, " + username + ". You are reader"});
 		this.$getHelloTemplate().refresh();
-		this.use(plugins.Menu, this.$$("top:readermenu"));
+		this.use(plugins.Menu, {
+			id: this.$$("top:readermenu")
+		});
 	}
 }

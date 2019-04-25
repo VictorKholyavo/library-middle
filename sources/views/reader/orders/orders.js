@@ -16,7 +16,7 @@ export default class OrderedBooksView extends JetView{
 				{ id: "title", header: "Title", fillspace: true, template: (obj) => obj.book.title },
 				{ id: "pages", header: "Pages", template: (obj) => obj.book.pages },
 				{ id: "year", header: "Year", template: (obj) => obj.book.year },
-				{ id: "author", header: "Author", template: (obj) => obj.book.author },
+				{ id: "author", header: "Author", fillspace: true, template: (obj) => obj.book.authorName + " " + obj.book.authorSurname + " " + obj.book.authorPatronymic },
 				{ id: "publisher", header: "Publisher", template: (obj) => obj.book.publisher },
 				{ id: "country", header: "Country", template: (obj) => obj.book.country },
 				{ id: "status", header: "Status", template: (obj) => obj.status.status },
@@ -38,13 +38,10 @@ export default class OrderedBooksView extends JetView{
 			save: {
 				url: "rest->http://localhost:3016/order/user",
 				updateFromResponse: true
-			},
-			css: "webix_shadow_medium"
+			}
 		};
 	}
 	$getDatatable() {
 		return this.$$("orderedBooks");
-	}
-	init(){
 	}
 }

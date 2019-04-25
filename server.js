@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -16,9 +17,16 @@ const StatusController = require("./server/controllers/status");
 const StartDataController = require("./server/controllers/startData");
 const CommentsController = require("./server/controllers/comment");
 
+const BooksMongoController = require("./server/controllers/library/books");
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+mongoose.connect(`mongodb://localhost:27017/myapir`, function (err) {
+	app.use("/booksmongo", BooksMongoController);				// !!!!!!!!!!!!!!!!!!!!!!!!!!
+});
+
 
 app.use("/users", UsersController);
 app.use("/usersdetailes", UsersDetailesController);

@@ -211,8 +211,6 @@ export default class FormforBookView extends JetView {
 			}
 		};
 	}
-	init() {
-	}
 	$getForm() {
 		return this.$$("form");
 	}

@@ -1,6 +1,6 @@
 import {JetView} from "webix-jet";
 
-export default class WindowPopularAuthorsView extends JetView {
+export default class PopularAuthorsView extends JetView {
 	config() {
 		return {
 			view: "window",

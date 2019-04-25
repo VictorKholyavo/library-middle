@@ -1,14 +1,19 @@
 import {JetView} from "webix-jet";
+import "./librarian.css";
+
 let counter = 1;
+
 export default class FormforBookView extends JetView {
 	config() {
 		return {
+			type: "space",
 			cols: [
 				{
 					rows: [
 						{
 							view: "form",
 							localId: "form",
+							borderless: true,
 							elements: [
 								{
 									rows: [
@@ -93,6 +98,7 @@ export default class FormforBookView extends JetView {
 						{
 							view: "button",
 							value: "Add one more genre",
+							css: "addbook-button",
 							click: () => {
 								counter++;
 								this.$getForm().addView({
@@ -120,6 +126,7 @@ export default class FormforBookView extends JetView {
 						{
 							view:"uploader",
 							localId:"uploader_1",
+							css: "addbook-button",
 							value: "Upload cover",
 							link: "listOfFiles",
 							upload: "http://localhost:3016/books/add",
@@ -137,6 +144,7 @@ export default class FormforBookView extends JetView {
 							view: "button",
 							localId: "saveButton",
 							width: 300,
+							css: "addbook-button",
 							value: "Save",
 							click: () => {
 								const values = this.$$("form").getValues();
@@ -164,8 +172,6 @@ export default class FormforBookView extends JetView {
 		else {
 			webix.message({ type:"error", text:"Invalid info" });
 		}
-	}
-	init() {
 	}
 	$getForm() {
 		return this.$$("form");

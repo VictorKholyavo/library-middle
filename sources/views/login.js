@@ -1,4 +1,5 @@
 import { JetView } from "webix-jet";
+import "./login/login.css";
 
 export default class FormView extends JetView {
 	config() {
@@ -33,6 +34,7 @@ export default class FormView extends JetView {
 					borderless: false,
 					margin: 20,
 					scroll: false,
+					css: "login_form",
 					visibleBatch: "b1",
 					elements: [
 						{
@@ -65,7 +67,8 @@ export default class FormView extends JetView {
 									view: "button",
 									localId: "loginButton",
 									value: "Login",
-									batch: "b1",
+									width: 250,
+									css: "authorization_button",
 									hotkey: "Enter",
 									click: () => {
 										this.do_login();
@@ -75,7 +78,8 @@ export default class FormView extends JetView {
 									view: "button",
 									localId: "registerButton",
 									value: "Registration",
-									batch: "b2",
+									width: 250,
+									css: "authorization_button",
 									click: () => {
 										let values = this.$getForm().getValues();
 										let form = this.$getForm();
@@ -88,18 +92,6 @@ export default class FormView extends JetView {
 										}).then(function () {
 											user.login(values.email, values.password);
 										});
-									}
-								},
-								{
-									view: "button",
-									localId: "adminButton",
-									value: "Register as admin",
-									batch: "b2",
-									click: () => {
-										let values = this.$getForm().getValues();
-										webix.ajax().post("http://localhost:3014/admins/addadmin", values);
-										this.$getForm().clear();
-										this.$getForm().clearValidation();
 									}
 								}
 							]
@@ -120,13 +112,11 @@ export default class FormView extends JetView {
 			this.$getForm().showBatch("b1");
 			this.$getLoginButton().show();
 			this.$getRegisterButton().hide();
-			this.$getAdminButton().hide();
 		}
 		else {
 			this.$getForm().showBatch("b2", true);
 			this.$getLoginButton().hide();
 			this.$getRegisterButton().show();
-			this.$getAdminButton().show();
 		}
 		this.$getForm().clear();
 		this.$getForm().clearValidation();
@@ -134,7 +124,6 @@ export default class FormView extends JetView {
 	do_login() {
 		let form = this.$getForm();
 		const user = this.app.getService("user");
-
 		if (this.$getForm().validate()) {
 			const data = this.$getForm().getValues();
 			user.login(data.email, data.password).catch(function (err) {
@@ -153,12 +142,8 @@ export default class FormView extends JetView {
 	$getRegisterButton() {
 		return this.$$("registerButton");
 	}
-	$getAdminButton() {
-		return this.$$("adminButton");
-	}
 	init() {
 		this.$getLoginButton().show();
 		this.$getRegisterButton().hide();
-		this.$getAdminButton().hide();
 	}
 }

@@ -1,6 +1,7 @@
 import { JetView, plugins } from "webix-jet";
+import "./librarian.css";
 
-export default class TopView extends JetView {
+export default class LibrarianMenu extends JetView {
 	config() {
 		const menu = {
 			view: "menu",
@@ -11,37 +12,66 @@ export default class TopView extends JetView {
 			select: true,
 			template: "<span class='webix_icon #icon#'></span> #value# ",
 			data: [
-				{ value: "Library", id: "librarian.library", icon: "wxi-columns" },
-				{ value: "Add Book", id: "librarian.addBook", icon: "wxi-pencil" },
-				{ value: "Orders", id: "librarian.orders", icon: "wxi-columns" },
-				{ value: "Readers", id: "librarian.readersDatatable", icon: "wxi-columns" }
+				{
+					value: "Library",
+					id: "librarian.library.library",
+					icon: "fas fa-book"
+				},
+				{
+					value: "Add Book",
+					id: "librarian.addbook",
+					icon: "fas fa-plus-square"
+				},
+				{
+					value: "Orders",
+					id: "librarian.orders",
+					icon: "fas fa-shopping-basket"
+				},
+				{
+					value: "Readers",
+					id: "librarian.readersDatatable",
+					icon: "fas fa-users"
+				}
 			]
 		};
 
 		const ui = {
 			type: "clean",
-			paddingX: 5,
 			css: "app_layout",
 			rows: [
 				{
-					paddingX: 5,
-					paddingY: 10,
 					rows: [
 						{
 							type: "toolbar",
 							localId: "toolbar",
-							margin: 20,
-							paddingX: 10,
 							cols: [
-								{ view: "template", localId: "helloTemplate", template: " ", width: 240},
+								{
+									view: "template",
+									localId: "helloTemplate",
+									template: " ",
+									css: "hello-template",
+									borderless: true,
+									width: 240
+								},
 								{},
-								{ view: "button", value: "Personal Information", width: 250, click: () => {this.show("personalPage");} },
-								{ view: "button", value: "Logout", width: 150, click: () => {this.do_logout(); window.location.reload(true); }}
+								{
+									view: "button",
+									value: "Personal Information",
+									width: 250,
+									click: () => { this.show("personalPage"); }
+								},
+								{
+									view: "button",
+									value: "Logout",
+									width: 150,
+									click: () => {this.do_logout();
+										window.location.reload(true);
+									}
+								}
 							],
 							css: "webix_dark"
 						},
 						{
-							css: "webix_shadow_medium",
 							cols: [
 								menu,
 								{
@@ -50,12 +80,6 @@ export default class TopView extends JetView {
 							]
 						}
 					]
-				},
-				{
-					type: "wide",
-					paddingY: 10,
-					paddingX: 5,
-					rows: []
 				}
 			]
 		};
