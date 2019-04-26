@@ -5,10 +5,7 @@ const Cover = new Schema ({
   path:  {
 		type: String,
 		required: true
-	},
-  caption: {
-		type: String
 	}
 });
 
-module.exports = mongoose.model("Photos", Cover);
+module.exports = mongoose.model("Cover", Cover);

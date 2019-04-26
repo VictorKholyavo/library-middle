@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Genre = require("./genre");
 
 const BookSchema = new Schema ({
 	title: {
@@ -34,24 +35,41 @@ const BookSchema = new Schema ({
 		type: String,
     required: true
 	},
+	genres: [{
+		type: Schema.Types.ObjectId,
+		ref: "Genre"
+	}],
 	availableCount: {
 		type: Number,
     required: true
 	},
-	image: {
+	cover: {
 		type: String
-	}
+	},
+	// text: [{
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: "Genre"
+	// }],
+	// audio: [{
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: "Genre"
+	// }],
 });
 
 BookSchema.methods.toClient = function toClient() {
   const obj = this.toObject();
   // // Rename fields:
+	obj.genres.map(function (genre) {
+		genre.id = genre._id;
+		delete genre._id;
+		return genre;
+	});
   obj.id = obj._id.toHexString();
   delete obj._id;
   return obj;
 }
 
 // Компилируем модель из схемы
-const Book = mongoose.model('Product', BookSchema);
+const Book = mongoose.model("Book", BookSchema);
 
 module.exports = Book

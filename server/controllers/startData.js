@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
-const { Status, Roles, User, UserDetailes, Genres, Books, Cover, Phones, BookFiles, BookAudioFiles } = require("../../sequelize");
+const Book = require("../schemas/library/books");
+const Genre = require("../schemas/library/genre");
+const { Status, Roles, User, UserDetailes, Cover, Phones, BookFiles, BookAudioFiles } = require("../../sequelize");
 
 const roles = [
     {uuid: 1, role: "reader"},
@@ -227,43 +229,45 @@ app.get("/", async (req, res) => {
             return
         });
 
-
 				let createdGenres = genres.map((genre) => {
             return Genres.create(genre);
         })
-        let createdBooks = books.map((book) => {
-            return Books.create(book).then((createdBook) => {
-                let path = "/public/uploads/covers/" + createdBook.dataValues.id + ".jpg";
-                createdBook.createCover({path: path, fileType: "image/jpeg", bookId: createdBook.dataValues.id});
-
-                return createdBook;
-            })
-        });
+				let createdBooks = books.map((book, index) => {
+					let path = "/public/uploads/covers/" + index+1 + ".jpg";
+					let newBook = await new Book ({
+						title: req.body.title,
+						pages: req.body.pages,
+						year: req.body.year,
+						authorName: req.body.authorName,
+						authorSurname: req.body.authorSurname,
+						authorPatronymic: req.body.authorPatronymic,
+						publisher: req.body.publisher,
+						country: req.body.country,
+						availableCount: req.body.availableCount,
+						cover: path
+					});
+					return newBook.save();
+				})
+        // let createdBooks = books.map((book) => {
+        //     return Books.create(book).then((createdBook) => {
+        //         let path = "/public/uploads/covers/" + createdBook.dataValues.id + ".jpg";
+        //         createdBook.createCover({path: path, fileType: "image/jpeg", bookId: createdBook.dataValues.id});
+        //         return createdBook;
+        //     })
+        // });
         Promise.all(createdGenres, createdBooks, genres).then((completed) => {
-            let i = 0;
-            genres.map(function (genre) {
-                Genres.create(genre);
-                Genres.findOne({where: {id: genre.id}})
-                .then((genre) => {
-                    bookGenres[i].map((book) => {
-                        return genre.addBook(book);
-                    })
-                    i++;
-                    return genre
-                })
-            });
-						for (let i = 1; i < 21; i++) {
-							Books.findOne({where: {id: i} }).then((book) => {
-								let path = "/public/uploads/texts/" + i + ".txt";
-								book.createBookFile(({fileType: "text/plain", path: path, size: "3112", bookId: i}));
-							});
-						}
-						for (let i = 50; i > 37; i--) {
-							Books.findOne({where: {id: i} }).then((book) => {
-								let path = "/public/uploads/audio/" + i + ".mp3";
-								book.createBookAudio(({fileType: "audio/mp3", path: path, size: "311231", bookId: i}));
-							});
-						}
+						// for (let i = 1; i < 21; i++) {
+						// 	Books.findOne({where: {id: i} }).then((book) => {
+						// 		let path = "/public/uploads/texts/" + i + ".txt";
+						// 		book.createBookFile(({fileType: "text/plain", path: path, size: "3112", bookId: i}));
+						// 	});
+						// }
+						// for (let i = 50; i > 37; i--) {
+						// 	Books.findOne({where: {id: i} }).then((book) => {
+						// 		let path = "/public/uploads/audio/" + i + ".mp3";
+						// 		book.createBookAudio(({fileType: "audio/mp3", path: path, size: "311231", bookId: i}));
+						// 	});
+						// }
         });
 
 

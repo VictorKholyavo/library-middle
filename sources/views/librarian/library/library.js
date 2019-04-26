@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import FormforBookView from "./editbook";
+import EditFormView from "./editbook";
 
 export default class LibraryView extends JetView {
 	config() {
@@ -18,7 +18,7 @@ export default class LibraryView extends JetView {
 								photo = "<img class='defaultPhoto'>";
 							}
 							else {
-								photo = "<img src ="+obj.cover.path+" class='smallPhoto'>";
+								photo = "<img src ="+obj.cover+" class='smallPhoto'>";
 							}
 							return "<div class='columnSettings'>"+ photo +"</div>";
 						}},
@@ -26,13 +26,13 @@ export default class LibraryView extends JetView {
 						{ id: "pages", editor: "text", header: "Pages" },
 						{ id: "year", editor: "text", header: "Year" },
 						{ id: "author", editor: "text", header: "Author", fillspace: true, template: (obj) => {
-							return obj.authorName + " " + obj.authorSurname;
+							return obj.authorName + " " + obj.authorSurname + " " + obj.authorPatronymic;
 						}
 						},
 						{ id: "genres", header: "Genres", fillspace: true, template: (obj) => {
 							let genres = " ";
 							genres = obj.genres.map(function (genre) {
-								return " " + genre.genre;
+								return " " + genre.name;
 							});
 							return genres;
 						}},
@@ -40,14 +40,14 @@ export default class LibraryView extends JetView {
 						{ id: "country", editor: "text", header: "Country" },
 						{ id: "availableCount", editor: "text", header: "Available count" },
 					],
-					url: "http://localhost:3016/books",
+					url: "http://localhost:3016/booksmongo",
 					save: {
-						url: "rest->http://localhost:3016/books",
+						url: "rest->http://localhost:3016/booksmongo",
 						updateFromResponse: true
 					},
 					on: {
 						onItemDblClick: () => {
-							const form = this.FormforBook;
+							const form = this.EditFormView;
 							const datatable = this.$getDatatable();
 							const values = datatable.getSelectedItem();
 							form.showWindow(values, function (data) {
@@ -60,17 +60,18 @@ export default class LibraryView extends JetView {
 				{
 					view:"pager",
 					id:"bottom",
-					size: 10,
-				},
+					size: 10
+				}
 			]
-
 		};
 	}
+
 	$getDatatable() {
 		return this.$$("library");
 	}
+
 	init() {
-		this.FormforBook = this.ui(FormforBookView);
+		this.EditFormView = this.ui(EditFormView);
 		webix.attachEvent("onBeforeAjax",
 			function(mode, url, data, request, headers) {
 				headers["filteringcolumn"] = "";

@@ -1,6 +1,8 @@
 import { JetView } from "webix-jet";
+
 let counter = 0;
-export default class FormforBookView extends JetView {
+
+export default class EditFormView extends JetView {
 	config() {
 		const form = {
 			view: "form",
@@ -66,6 +68,7 @@ export default class FormforBookView extends JetView {
 				$all: webix.rules.isNotEmpty
 			}
 		};
+
 		const uploaders = {
 			cols: [
 				{
@@ -120,12 +123,13 @@ export default class FormforBookView extends JetView {
 						this.$getForm().addView({
 							view: "richselect",
 							label: "Genre "+counter,
+							localId: "genre_"+counter,
 							labelWidth: 140,
-							name: "genre"+counter,
+							name: "genre_"+counter,
 							options:{
 								body: {
-									template: "#genre#",
-									url:"http://localhost:3016/genres",
+									template: "#name#",
+									url:"http://localhost:3016/genresmongo",
 								}
 							},
 						});
@@ -166,10 +170,14 @@ export default class FormforBookView extends JetView {
 				onHide: () => {
 					this.$getForm().clear();
 					this.$getForm().clearValidation();
+					for (let i = 1; i < counter + 1; i++) {
+						this.$getForm().removeView(this.$$("genre_"+i));
+					}
 				}
 			}
 		};
 	}
+	
 	showWindow(values, filled) {
 		let formTemplate = this.$$("formTemplate");
 		this.getRoot().show();
@@ -178,16 +186,17 @@ export default class FormforBookView extends JetView {
 		let uploader_audio = this.$$("uploader_audio");
 		if (values) {
 			values.genres.map(function (genre, index) {
-				values["genre"+(index+1)] = genre.id;
+				values["genre_"+(index+1)] = genre.id;
 				form.addView({
 					view: "richselect",
-					name: "genre"+(index+1),
+					name: "genre_"+(index+1),
 					label: "Genre "+(index+1),
+					localId: "genre_"+(index+1),
 					labelWidth: 140,
 					options:{
 						body: {
-							template: "#genre#",
-							url:"http://localhost:3016/genres",
+							template: "#name#",
+							url:"http://localhost:3016/genresmongo",
 						}
 					},
 				});
@@ -211,9 +220,11 @@ export default class FormforBookView extends JetView {
 			}
 		};
 	}
+
 	$getForm() {
 		return this.$$("form");
 	}
+
 	hide() {
 		this.$$("popup").hide();
 	}

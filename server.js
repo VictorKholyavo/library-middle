@@ -18,6 +18,7 @@ const StartDataController = require("./server/controllers/startData");
 const CommentsController = require("./server/controllers/comment");
 
 const BooksMongoController = require("./server/controllers/library/books");
+const GenresMongoController = require("./server/controllers/library/genre");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 
 mongoose.connect(`mongodb://localhost:27017/myapir`, function (err) {
 	app.use("/booksmongo", BooksMongoController);				// !!!!!!!!!!!!!!!!!!!!!!!!!!
+	app.use("/genresmongo", GenresMongoController);
 });
 
 

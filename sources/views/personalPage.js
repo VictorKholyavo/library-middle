@@ -1,4 +1,6 @@
 import {JetView} from "webix-jet";
+import "./personalpage.css"
+
 let counter = null;
 
 export default class PersonalPageView extends JetView{
@@ -17,6 +19,7 @@ export default class PersonalPageView extends JetView{
 				{
 					view:"icon",
 					icon:"wxi-close",
+					padding: 20,
 					click: () => {
 						this.show("/top");
 					}
@@ -77,6 +80,8 @@ export default class PersonalPageView extends JetView{
 					view: "button",
 					localId: "updateButton",
 					value: "Save",
+					type: "form",
+					css: "page-buttons",
 					click: () => {
 						const newValues = this.$getForm().getValues();
 						this.savePersonalInformation(newValues);
@@ -85,6 +90,7 @@ export default class PersonalPageView extends JetView{
 				{
 					view: "button",
 					value: "Add one more phone",
+					css: "page-buttons",
 					click: () => {
 						if (counter < 4) {
 							counter++;
