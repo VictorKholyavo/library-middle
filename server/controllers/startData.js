@@ -11,12 +11,12 @@ const roles = [
 ];
 
 const genres = [
-	{id: 1, genre: "Sci-Fi"},
-	{id: 2, genre: "Horror"},
-	{id: 3, genre: "Detective"},
-	{id: 4, genre: "Adventure"},
-	{id: 5, genre: "Fantasy"},
-	{id: 6, genre: "Drama"}
+	{id: 1, name: "Sci-Fi"},
+	{id: 2, name: "Horror"},
+	{id: 3, name: "Detective"},
+	{id: 4, name: "Adventure"},
+	{id: 5, name: "Fantasy"},
+	{id: 6, name: "Drama"}
 ];
 
 const statuses = [
@@ -37,56 +37,56 @@ const bookGenres = [
 	[8, 15, 43, 3, 30, 29, 2, 21, 33, 47]
 ];
 
-const books = [{"id":1,"title":"Tinker Tailor Soldier Spy","pages":411,"year":1986,"authorName":"Rayner","authorSurname":"Dubery","authorPatronymic":"Houlaghan","publisher":"Bluezoom","country":"Tunisia","availableCount":42},
-{"id":2,"title":"Places in the Heart","pages":396,"year":1996,"authorName":"Roberto","authorSurname":"Yukhnov","authorPatronymic":"Lorenc","publisher":"Yombu","country":"Slovenia","availableCount":6},
-{"id":3,"title":"Genevieve","pages":170,"year":1997,"authorName":"Lothaire","authorSurname":"Caldera","authorPatronymic":"McClary","publisher":"Voolith","country":"Nicaragua","availableCount":86},
-{"id":4,"title":"Jimmy Carter Man from Plains","pages":472,"year":2004,"authorName":"Skylar","authorSurname":"Goodbanne","authorPatronymic":"Mouncher","publisher":"Wordtune","country":"Indonesia","availableCount":65},
-{"id":5,"title":"Winnetou: The Last Shot","pages":465,"year":1967,"authorName":"Aguistin","authorSurname":"Champagne","authorPatronymic":"Glyn","publisher":"Feedspan","country":"China","availableCount":8},
-{"id":6,"title":"Paris, France","pages":156,"year":2012,"authorName":"Early","authorSurname":"Kenward","authorPatronymic":"Goulbourne","publisher":"Voolia","country":"China","availableCount":68},
-{"id":7,"title":"Mo' Money","pages":169,"year":2009,"authorName":"Bartholomeus","authorSurname":"Jeannot","authorPatronymic":"Novelli","publisher":"Zoozzy","country":"Ukraine","availableCount":7},
-{"id":8,"title":"Corporation, The","pages":252,"year":2008,"authorName":"Vale","authorSurname":"Gyenes","authorPatronymic":"Pardie","publisher":"Fatz","country":"China","availableCount":69},
-{"id":9,"title":"Wake","pages":332,"year":2011,"authorName":"Lowell","authorSurname":"Bendan","authorPatronymic":"Suddock","publisher":"Quatz","country":"China","availableCount":85},
-{"id":10,"title":"Portraits of Women (Naisenkuvia)","pages":347,"year":1997,"authorName":"Isacco","authorSurname":"Kemmis","authorPatronymic":"Minchi","publisher":"Twinte","country":"Indonesia","availableCount":17},
-{"id":11,"title":"Iron & Silk","pages":474,"year":2006,"authorName":"Marius","authorSurname":"Thorouggood","authorPatronymic":"Gornar","publisher":"Thoughtbeat","country":"Thailand","availableCount":14},
-{"id":12,"title":"Shadowboxer","pages":449,"year":2009,"authorName":"Corny","authorSurname":"Crosdill","authorPatronymic":"Burfoot","publisher":"Omba","country":"China","availableCount":6},
-{"id":13,"title":"Messiah of Evil","pages":481,"year":2007,"authorName":"Neall","authorSurname":"Stollmeier","authorPatronymic":"Thow","publisher":"Bubblebox","country":"Indonesia","availableCount":35},
-{"id":14,"title":"Ghost Adventures","pages":217,"year":2001,"authorName":"Neall","authorSurname":"Stollmeier","authorPatronymic":"Thow","publisher":"Jetwire","country":"Spain","availableCount":28},
-{"id":15,"title":"Fantastic Four: Rise of the Silver Surfer","pages":233,"year":1987,"authorName":"Payton","authorSurname":"Tombleson","authorPatronymic":"Maytom","publisher":"Trilith","country":"Iran","availableCount":35},
-{"id":16,"title":"Lonesome Dove","pages":214,"year":2007,"authorName":"Joe","authorSurname":"Romei","authorPatronymic":"Byatt","publisher":"Yamia","country":"Indonesia","availableCount":10},
-{"id":17,"title":"Deluge, The (Potop)","pages":299,"year":2007,"authorName":"Everard","authorSurname":"Cowely","authorPatronymic":"Melbert","publisher":"Photolist","country":"Indonesia","availableCount":65},
-{"id":18,"title":"Dead Meat","pages":238,"year":2006,"authorName":"Neall","authorSurname":"Stollmeier","authorPatronymic":"Thow","publisher":"Twitternation","country":"China","availableCount":50},
-{"id":19,"title":"Welcome to Collinwood","pages":468,"year":2003,"authorName":"Auberon","authorSurname":"Clother","authorPatronymic":"Songest","publisher":"Roomm","country":"Russia","availableCount":74},
-{"id":20,"title":"Way Back, The","pages":356,"year":2004,"authorName":"Hewe","authorSurname":"Smallcomb","authorPatronymic":"MacKaig","publisher":"Skinder","country":"Indonesia","availableCount":6},
-{"id":21,"title":"Magnificent Obsession","pages":458,"year":1987,"authorName":"Nikita","authorSurname":"O'Kieran","authorPatronymic":"Alderman","publisher":"Pixope","country":"Spain","availableCount":77},
-{"id":22,"title":"Pee-wee's Big Adventure","pages":499,"year":1998,"authorName":"Teador","authorSurname":"Butterfint","authorPatronymic":"Causley","publisher":"Pixonyx","country":"Slovenia","availableCount":72},
-{"id":23,"title":"Kids for Cash","pages":252,"year":1993,"authorName":"Dwight","authorSurname":"Chetham","authorPatronymic":"Tubbs","publisher":"Twitternation","country":"Burkina Faso","availableCount":51},
-{"id":24,"title":"7 Seconds","pages":408,"year":2009,"authorName":"Rex","authorSurname":"Gowdie","authorPatronymic":"Grollmann","publisher":"Fanoodle","country":"Nigeria","availableCount":80},
-{"id":25,"title":"Michael","pages":276,"year":2009,"authorName":"Del","authorSurname":"Condon","authorPatronymic":"Betke","publisher":"Livetube","country":"China","availableCount":65},
-{"id":26,"title":"Rånarna","pages":301,"year":1996,"authorName":"Hartwell","authorSurname":"Boshere","authorPatronymic":"Latter","publisher":"Blognation","country":"Ethiopia","availableCount":4},
-{"id":27,"title":"Trigun: Badlands Rumble","pages":317,"year":2008,"authorName":"Hebert","authorSurname":"Snell","authorPatronymic":"Peterken","publisher":"Photospace","country":"Czech Republic","availableCount":29},
-{"id":28,"title":"Fog, The","pages":158,"year":1999,"authorName":"Tymon","authorSurname":"Dust","authorPatronymic":"Vaughten","publisher":"Buzzdog","country":"Dominican Republic","availableCount":28},
-{"id":29,"title":"Man in the Gray Flannel Suit, The","pages":461,"year":1995,"authorName":"Neel","authorSurname":"Rippen","authorPatronymic":"Burd","publisher":"Cogibox","country":"Panama","availableCount":56},
-{"id":30,"title":"Bible, The (a.k.a. Bible... In the Beginning, The)","pages":387,"year":1988,"authorName":"Ringo","authorSurname":"Meckiff","authorPatronymic":"Burkin","publisher":"Wikido","country":"Sweden","availableCount":39},
-{"id":31,"title":"Café Metropole","pages":404,"year":1997,"authorName":"Marijn","authorSurname":"Peto","authorPatronymic":"Larkins","publisher":"Youfeed","country":"Pakistan","availableCount":3},
-{"id":32,"title":"Anacondas: The Hunt for the Blood Orchid","pages":408,"year":2006,"authorName":"Randie","authorSurname":"Demkowicz","authorPatronymic":"Vaughan-Hughes","publisher":"Roombo","country":"China","availableCount":86},
-{"id":33,"title":"Prinsessa (Starring Maja)","pages":349,"year":2011,"authorName":"Tuckie","authorSurname":"English","authorPatronymic":"Soda","publisher":"Babbleset","country":"Chile","availableCount":71},
-{"id":34,"title":"Filth and the Fury, The","pages":195,"year":2008,"authorName":"Jared","authorSurname":"Yurkov","authorPatronymic":"Kidstone","publisher":"Plambee","country":"China","availableCount":49},
-{"id":35,"title":"Maiden Heist, The","pages":401,"year":2010,"authorName":"Corny","authorSurname":"Morales","authorPatronymic":"Arnoldi","publisher":"Gigaclub","country":"Argentina","availableCount":88},
-{"id":36,"title":"Sweetgrass","pages":175,"year":2010,"authorName":"Toiboid","authorSurname":"McMurray","authorPatronymic":"Gosling","publisher":"Tanoodle","country":"Indonesia","availableCount":96},
-{"id":37,"title":"Pact, The","pages":293,"year":2008,"authorName":"Marijn","authorSurname":"Wheelband","authorPatronymic":"Kelcher","publisher":"Jaloo","country":"Philippines","availableCount":23},
-{"id":38,"title":"Titan A.E.","pages":341,"year":1995,"authorName":"Herb","authorSurname":"Mabbot","authorPatronymic":"Renbold","publisher":"Rhybox","country":"Ireland","availableCount":65},
-{"id":39,"title":"Homevideo","pages":170,"year":2011,"authorName":"Randell","authorSurname":"Hotchkin","authorPatronymic":"Cannicott","publisher":"Zava","country":"Philippines","availableCount":38},
-{"id":40,"title":"Burning Blue","pages":417,"year":2000,"authorName":"Fonsie","authorSurname":"Drover","authorPatronymic":"Molesworth","publisher":"Youspan","country":"Argentina","availableCount":57},
-{"id":41,"title":"Man of the Year","pages":165,"year":1999,"authorName":"Tadio","authorSurname":"Wakeley","authorPatronymic":"Gisburn","publisher":"Quatz","country":"Philippines","availableCount":43},
-{"id":42,"title":"Three Way","pages":279,"year":1993,"authorName":"Shellysheldon","authorSurname":"Mills","authorPatronymic":"Grunwald","publisher":"Meetz","country":"Philippines","availableCount":36},
-{"id":43,"title":"Magic Gloves, The (Los guantes mágicos)","pages":256,"year":2008,"authorName":"Pyotr","authorSurname":"Yeldon","authorPatronymic":"Pashby","publisher":"Lazz","country":"Poland","availableCount":90},
-{"id":44,"title":"Savages","pages":394,"year":1995,"authorName":"Frankie","authorSurname":"Speaks","authorPatronymic":"Meeland","publisher":"Aimbu","country":"Iran","availableCount":88},
-{"id":45,"title":"Sergeant Körmy and the South Pacific (Vääpeli Körmy ja etelän hetelmät)","pages":165,"year":2006,"authorName":"Buck","authorSurname":"Peasegod","authorPatronymic":"Nisard","publisher":"Digitube","country":"China","availableCount":18},
-{"id":46,"title":"My Dinner with André","pages":407,"year":1991,"authorName":"Harris","authorSurname":"Andrieux","authorPatronymic":"Klimentov","publisher":"Kwinu","country":"France","availableCount":7},
-{"id":47,"title":"Clerks","pages":158,"year":1999,"authorName":"Maynard","authorSurname":"Dudderidge","authorPatronymic":"Hukins","publisher":"Skiptube","country":"Poland","availableCount":42},
-{"id":48,"title":"Green Butchers, The (Grønne slagtere, De)","pages":242,"year":2006,"authorName":"George","authorSurname":"Woollaston","authorPatronymic":"Lipscomb","publisher":"Yombu","country":"Indonesia","availableCount":62},
-{"id":49,"title":"Dog's Life, A","pages":193,"year":2000,"authorName":"Ambrosius","authorSurname":"Fisk","authorPatronymic":"Slopier","publisher":"Mycat","country":"China","availableCount":89},
-{"id":50,"title":"Fragments of an Alms-Film (Fragmentos de um Filme-Esmola: A Sagrada Família)","pages":403,"year":1985,"authorName":"Malvin","authorSurname":"Bicker","authorPatronymic":"Pacher","publisher":"Linktype","country":"China","availableCount":88}]
+const books = [{"title":"Big Store, The","pages":390,"year":2008,"authorName":"Ozzy","authorSurname":"Rothwell","authorPatronymic":"Audréanne","publisher":"Jones, Stracke and Mraz","country":"Portugal","availableCount":8,"genres":[5,2],"cover":"/public/uploads/covers/1.jpg"},
+{"title":"Knights of Bloodsteel","pages":247,"year":2012,"authorName":"Gus","authorSurname":"Willavize","authorPatronymic":"Cléa","publisher":"Haley, Breitenberg and Dooley","country":"Latvia","availableCount":28,"genres":[5],"cover":"/public/uploads/covers/2.jpg"},
+{"title":"In the Mood For Love (Fa yeung nin wa)","pages":292,"year":1985,"authorName":"Deck","authorSurname":"Hunte","authorPatronymic":"Maëlys","publisher":"Greenholt Group","country":"Philippines","availableCount":22,"genres":[1,6],"cover":"/public/uploads/covers/3.jpg"},
+{"title":"Baboona","pages":317,"year":2004,"authorName":"Josepha","authorSurname":"Jochanany","authorPatronymic":"Lucrèce","publisher":"Wiegand, Lind and Mertz","country":"Zimbabwe","availableCount":6,"genres":[3],"cover":"/public/uploads/covers/4.jpg"},
+{"title":"Pride of St. Louis, The","pages":358,"year":1999,"authorName":"Roseanna","authorSurname":"Hurdidge","authorPatronymic":"Loïc","publisher":"Macejkovic Inc","country":"South Korea","availableCount":17,"genres":[1],"cover":"/public/uploads/covers/5.jpg"},
+{"title":"Smurfs 2, The","pages":252,"year":1994,"authorName":"Tadeas","authorSurname":"Weatherley","authorPatronymic":"Maéna","publisher":"Balistreri LLC","country":"Poland","availableCount":18,"genres":[6,3],"cover":"/public/uploads/covers/6.jpg"},
+{"title":"Nowhere","pages":240,"year":2002,"authorName":"Brook","authorSurname":"Squirrell","authorPatronymic":"Véronique","publisher":"Mills and Sons","country":"France","availableCount":28,"genres":[3],"cover":"/public/uploads/covers/7.jpg"},
+{"title":"Spirited Away (Sen to Chihiro no kamikakushi)","pages":425,"year":1992,"authorName":"Trista","authorSurname":"Carwithan","authorPatronymic":"Véronique","publisher":"Leannon, Rohan and Pfeffer","country":"Colombia","availableCount":5,"genres":[3],"cover":"/public/uploads/covers/8.jpg"},
+{"title":"Atlas Shrugged: Who Is John Galt? (Atlas Shrugged: Part III)","pages":267,"year":1999,"authorName":"Brandie","authorSurname":"Chick","authorPatronymic":"Intéressant","publisher":"Hermiston, Rodriguez and Hane","country":"Nigeria","availableCount":29,"genres":[4],"cover":"/public/uploads/covers/9.jpg"},
+{"title":"Sniper, The","pages":342,"year":2010,"authorName":"Selene","authorSurname":"Korlat","authorPatronymic":"Nuó","publisher":"Maggio Group","country":"Poland","availableCount":28,"genres":[6],"cover":"/public/uploads/covers/10.jpg"},
+{"title":"Intolerable Cruelty","pages":408,"year":1990,"authorName":"Dwain","authorSurname":"Linger","authorPatronymic":"Östen","publisher":"Harvey, Ullrich and Abshire","country":"China","availableCount":27,"genres":[5],"cover":"/public/uploads/covers/11.jpg"},
+{"title":"Mabel's Married Life","pages":397,"year":2010,"authorName":"Flss","authorSurname":"Dwelley","authorPatronymic":"Mélia","publisher":"Anderson-Ebert","country":"Slovenia","availableCount":5,"genres":[4],"cover":"/public/uploads/covers/12.jpg"},
+{"title":"Green Lantern: Emerald Knights","pages":237,"year":1988,"authorName":"Tanya","authorSurname":"McAlpin","authorPatronymic":"Estée","publisher":"Rodriguez-Trantow","country":"Latvia","availableCount":25,"genres":[3],"cover":"/public/uploads/covers/13.jpg"},
+{"title":"Fullmetal Alchemist: The Sacred Star of Milos","pages":388,"year":1987,"authorName":"Kissie","authorSurname":"Desport","authorPatronymic":"Gaïa","publisher":"Mohr Inc","country":"Indonesia","availableCount":1,"genres":[5],"cover":"/public/uploads/covers/14.jpg"},
+{"title":"Lord, Save Us from Your Followers","pages":255,"year":2001,"authorName":"Rand","authorSurname":"Marder","authorPatronymic":"Céline","publisher":"Gutkowski, Cummerata and Boehm","country":"Slovenia","availableCount":24,"genres":[4],"cover":"/public/uploads/covers/15.jpg"},
+{"title":"Box, The","pages":265,"year":2006,"authorName":"Lolita","authorSurname":"Lennon","authorPatronymic":"Andréanne","publisher":"Sporer-Schinner","country":"Philippines","availableCount":26,"genres":[4],"cover":"/public/uploads/covers/16.jpg"},
+{"title":"Loop the Loop (Up and Down) (Horem pádem)","pages":454,"year":2004,"authorName":"Gustav","authorSurname":"Scandrite","authorPatronymic":"Nuó","publisher":"Hansen, Hessel and Predovic","country":"China","availableCount":4,"genres":[4],"cover":"/public/uploads/covers/17.jpg"},
+{"title":"Wavelength","pages":383,"year":2007,"authorName":"Nicola","authorSurname":"Mulcaster","authorPatronymic":"Marie-josée","publisher":"Frami-Vandervort","country":"Philippines","availableCount":19,"genres":[3],"cover":"/public/uploads/covers/18.jpg"},
+{"title":"Nocturno 29","pages":459,"year":2005,"authorName":"Milo","authorSurname":"Pachta","authorPatronymic":"Almérinda","publisher":"Corkery-Gutmann","country":"China","availableCount":2,"genres":[4],"cover":"/public/uploads/covers/19.jpg"},
+{"title":"The Humanoid","pages":373,"year":2007,"authorName":"Trista","authorSurname":"Eirwin","authorPatronymic":"Illustrée","publisher":"Goodwin, Nitzsche and Smitham","country":"France","availableCount":27,"genres":[3],"cover":"/public/uploads/covers/20.jpg"},
+{"title":"Wake","pages":204,"year":2008,"authorName":"Neilla","authorSurname":"D'Alessio","authorPatronymic":"Méng","publisher":"Sipes and Sons","country":"New Zealand","availableCount":4,"genres":[1],"cover":"/public/uploads/covers/21.jpg"},
+{"title":"Heart of Dragon (Long de xin)","pages":446,"year":1990,"authorName":"Filberte","authorSurname":"Fullick","authorPatronymic":"Laurène","publisher":"Yundt LLC","country":"Indonesia","availableCount":6,"genres":[6],"cover":"/public/uploads/covers/22.jpg"},
+{"title":"Two Brothers (Deux frères)","pages":203,"year":1993,"authorName":"Korie","authorSurname":"Kitchinghan","authorPatronymic":"Réservés","publisher":"Hintz and Sons","country":"Colombia","availableCount":26,"genres":[6],"cover":"/public/uploads/covers/23.jpg"},
+{"title":"Sibling Rivalry","pages":409,"year":2008,"authorName":"Lamond","authorSurname":"Joannidi","authorPatronymic":"Stévina","publisher":"Altenwerth, Goyette and Bode","country":"China","availableCount":14,"genres":[1],"cover":"/public/uploads/covers/24.jpg"},
+{"title":"Living Daylights, The","pages":418,"year":2012,"authorName":"Agnella","authorSurname":"Lenden","authorPatronymic":"Lén","publisher":"Hahn-O'Keefe","country":"Poland","availableCount":10,"genres":[1],"cover":"/public/uploads/covers/25.jpg"},
+{"title":"Jungle Fighters","pages":396,"year":1998,"authorName":"Kenna","authorSurname":"Housiaux","authorPatronymic":"Miléna","publisher":"Ryan, Leuschke and Braun","country":"Philippines","availableCount":29,"genres":[4],"cover":"/public/uploads/covers/26.jpg"},
+{"title":"Pink Floyd: The Wall","pages":379,"year":2003,"authorName":"Cullan","authorSurname":"Prydden","authorPatronymic":"Méng","publisher":"Sawayn, Dickinson and Kunze","country":"Portugal","availableCount":26,"genres":[6],"cover":"/public/uploads/covers/27.jpg"},
+{"title":"World According to Sesame Street, The","pages":380,"year":1987,"authorName":"Colas","authorSurname":"Mara","authorPatronymic":"Maïlys","publisher":"Heller-Fritsch","country":"Bosnia and Herzegovina","availableCount":18,"genres":[2],"cover":"/public/uploads/covers/28.jpg"},
+{"title":"Faith Like Potatoes","pages":387,"year":1999,"authorName":"Jozef","authorSurname":"Claxson","authorPatronymic":"Yénora","publisher":"Rutherford and Sons","country":"Slovenia","availableCount":22,"genres":[2],"cover":"/public/uploads/covers/29.jpg"},
+{"title":"Time Without Pity","pages":398,"year":1994,"authorName":"Godwin","authorSurname":"Farmiloe","authorPatronymic":"Åslög","publisher":"Stiedemann Inc","country":"Kuwait","availableCount":6,"genres":[4],"cover":"/public/uploads/covers/30.jpg"},
+{"title":"Casablanca","pages":244,"year":1998,"authorName":"Malanie","authorSurname":"Brabender","authorPatronymic":"Cécilia","publisher":"Eichmann LLC","country":"Latvia","availableCount":20,"genres":[1],"cover":"/public/uploads/covers/31.jpg"},
+{"title":"Yellow Earth (Huang tu di)","pages":442,"year":2009,"authorName":"Bryn","authorSurname":"Iiannoni","authorPatronymic":"Océanne","publisher":"Dicki and Sons","country":"France","availableCount":20,"genres":[4],"cover":"/public/uploads/covers/32.jpg"},
+{"title":"Secret of Santa Vittoria, The","pages":257,"year":1984,"authorName":"Weber","authorSurname":"Macci","authorPatronymic":"Faîtes","publisher":"Marquardt-MacGyver","country":"Ukraine","availableCount":3,"genres":[6],"cover":"/public/uploads/covers/33.jpg"},
+{"title":"The Mysterious Island","pages":232,"year":1992,"authorName":"Gregory","authorSurname":"Leaman","authorPatronymic":"Bécassine","publisher":"Altenwerth-Hegmann","country":"Serbia","availableCount":3,"genres":[2],"cover":"/public/uploads/covers/34.jpg"},
+{"title":"Answer This!","pages":201,"year":2002,"authorName":"Hinda","authorSurname":"Archibald","authorPatronymic":"Médiamass","publisher":"Tillman and Sons","country":"Brazil","availableCount":14,"genres":[3],"cover":"/public/uploads/covers/35.jpg"},
+{"title":"Little Red Flowers (Kan shang qu hen mei)","pages":430,"year":2012,"authorName":"Codie","authorSurname":"Hanne","authorPatronymic":"Léandre","publisher":"Bahringer-Osinski","country":"United Kingdom","availableCount":7,"genres":[1],"cover":"/public/uploads/covers/36.jpg"},
+{"title":"Deception","pages":207,"year":2001,"authorName":"Jon","authorSurname":"Darley","authorPatronymic":"Loïs","publisher":"Oberbrunner-Raynor","country":"Czech Republic","availableCount":5,"genres":[1],"cover":"/public/uploads/covers/37.jpg"},
+{"title":"Queen of Versailles, The","pages":220,"year":1993,"authorName":"Kellsie","authorSurname":"Pirie","authorPatronymic":"Zhì","publisher":"Fay-Renner","country":"Bangladesh","availableCount":22,"genres":[4],"cover":"/public/uploads/covers/38.jpg"},
+{"title":"12:08 East of Bucharest (A fost sau n-a fost?)","pages":361,"year":1993,"authorName":"Allix","authorSurname":"Coddrington","authorPatronymic":"Almérinda","publisher":"Schiller, Bauch and Hahn","country":"Portugal","availableCount":11,"genres":[5],"cover":"/public/uploads/covers/39.jpg"},
+{"title":"Allan Quatermain and the Temple of Skulls","pages":364,"year":1994,"authorName":"Ernestine","authorSurname":"Siddle","authorPatronymic":"Frédérique","publisher":"Hoeger-Bergstrom","country":"Indonesia","availableCount":16,"genres":[3],"cover":"/public/uploads/covers/40.jpg"},
+{"title":"Homesman, The","pages":251,"year":2009,"authorName":"Kitty","authorSurname":"Brealey","authorPatronymic":"Cinéma","publisher":"Schmitt-Muller","country":"China","availableCount":14,"genres":[3],"cover":"/public/uploads/covers/41.jpg"},
+{"title":"Come to the Stable","pages":377,"year":2005,"authorName":"Lucias","authorSurname":"Burns","authorPatronymic":"Erwéi","publisher":"Lang LLC","country":"Russia","availableCount":11,"genres":[4],"cover":"/public/uploads/covers/42.jpg"},
+{"title":"La montaña rusa","pages":284,"year":2004,"authorName":"Buddy","authorSurname":"Josefovic","authorPatronymic":"Annotée","publisher":"Olson, Abernathy and Keebler","country":"Brazil","availableCount":24,"genres":[3],"cover":"/public/uploads/covers/43.jpg"},
+{"title":"Wavelength","pages":310,"year":2000,"authorName":"Karly","authorSurname":"Couzens","authorPatronymic":"Lóng","publisher":"Miller-Pfeffer","country":"China","availableCount":2,"genres":[2],"cover":"/public/uploads/covers/44.jpg"},
+{"title":"Machine, The","pages":439,"year":2007,"authorName":"Horatius","authorSurname":"Dunguy","authorPatronymic":"Cinéma","publisher":"Zboncak-Ebert","country":"France","availableCount":23,"genres":[5],"cover":"/public/uploads/covers/45.jpg"},
+{"title":"Dying Young","pages":457,"year":2009,"authorName":"Jemmy","authorSurname":"Gunter","authorPatronymic":"Esbjörn","publisher":"Senger, Bernier and Kunde","country":"Haiti","availableCount":1,"genres":[5],"cover":"/public/uploads/covers/46.jpg"},
+{"title":"W.C. Fields and Me","pages":407,"year":2005,"authorName":"Flory","authorSurname":"Radnedge","authorPatronymic":"Adélie","publisher":"Quigley-Schaden","country":"Philippines","availableCount":12,"genres":[3],"cover":"/public/uploads/covers/47.jpg"},
+{"title":"Tin Toy","pages":252,"year":2002,"authorName":"Catriona","authorSurname":"Stubbes","authorPatronymic":"Maéna","publisher":"Douglas Group","country":"Guatemala","availableCount":17,"genres":[2],"cover":"/public/uploads/covers/48.jpg"},
+{"title":"Poultrygeist: Night of the Chicken Dead","pages":294,"year":2008,"authorName":"Willdon","authorSurname":"Antyukhin","authorPatronymic":"Loïc","publisher":"Lockman Group","country":"China","availableCount":19,"genres":[1],"cover":"/public/uploads/covers/49.jpg"},
+{"title":"Sandakan 8 (Sandakan hachibanshokan bohkyo)","pages":403,"year":2005,"authorName":"Celine","authorSurname":"Haswall","authorPatronymic":"Léa","publisher":"Rau-Osinski","country":"Zambia","availableCount":22,"genres":[4],"cover":"/public/uploads/covers/50.jpg"}]
 
 const users = [
     {id: 1, email: "user1", password: "user1", roleUuid: 1},
@@ -206,48 +206,63 @@ const phones = [{"id":1,"phone":"305-637-6527","userId":1},
 
 app.get("/", async (req, res) => {
     try {
-        let createdStatuses = statuses.map((status) => {
-            return Status.create(status)
-        });
+        // let createdStatuses = statuses.map((status) => {
+        //     return Status.create(status)
+        // });
+				//
+        // let createdRoles = roles.map((role) => {
+        //     return Roles.create(role)
+        // });
+				//
+        // Promise.all(createdRoles).then((completed) => {
+        //     let createdUsers = users.map((user, index) => {
+        //         return User.create(user).then((user) => {
+        //             return UserDetailes.create(usersDetailes[index]);
+        //         });
+        //     });
+        //     Promise.all(createdUsers).then(() => {
+        //         phones.map((phone) => {
+        //             // phone.phone = phone.phone.replace(/-/g, "");
+        //             return Phones.create({phone: phone.phone, userId: phone.userId});
+        //         })
+        //     });
+        //     return
+        // });
 
-        let createdRoles = roles.map((role) => {
-            return Roles.create(role)
-        });
-
-        Promise.all(createdRoles).then((completed) => {
-            let createdUsers = users.map((user, index) => {
-                return User.create(user).then((user) => {
-                    return UserDetailes.create(usersDetailes[index]);
-                });
-            });
-            Promise.all(createdUsers).then(() => {
-                phones.map((phone) => {
-                    // phone.phone = phone.phone.replace(/-/g, "");
-                    return Phones.create({phone: phone.phone, userId: phone.userId});
-                })
-            });
-            return
-        });
-
-				let createdGenres = genres.map((genre) => {
-            return Genres.create(genre);
-        })
-				let createdBooks = books.map((book, index) => {
-					let path = "/public/uploads/covers/" + index+1 + ".jpg";
-					let newBook = await new Book ({
-						title: req.body.title,
-						pages: req.body.pages,
-						year: req.body.year,
-						authorName: req.body.authorName,
-						authorSurname: req.body.authorSurname,
-						authorPatronymic: req.body.authorPatronymic,
-						publisher: req.body.publisher,
-						country: req.body.country,
-						availableCount: req.body.availableCount,
-						cover: path
+				let createdGenres = genres.map(async (genre) => {
+          let newGenre = await new Genre ({
+						name: genre.name
 					});
-					return newBook.save();
-				})
+					return newGenre.save();
+        });
+
+				let createdBooks = books.map(async (book, index) => {
+					let newBook = await new Book ({
+						title: book.title,
+						pages: book.pages,
+						year: book.year,
+						authorName: book.authorName,
+						authorSurname: book.authorSurname,
+						authorPatronymic: book.authorPatronymic,
+						publisher: book.publisher,
+						country: book.country,
+						availableCount: book.availableCount,
+						cover: book.cover
+					});
+					return newBook.save(function (err, book) {
+						Genre.count().exec(function (err, count) {
+					  // Get a random entry
+					  let random = Math.floor(Math.random() * count)
+					  // Again query all users but only fetch one offset by our random #
+					  Genre.findOne().skip(random).exec(
+					    function (err, genre) {
+								book.genres.push(genre._id);
+								book.save();
+					    });
+						});
+					});
+				});
+
         // let createdBooks = books.map((book) => {
         //     return Books.create(book).then((createdBook) => {
         //         let path = "/public/uploads/covers/" + createdBook.dataValues.id + ".jpg";
@@ -255,7 +270,7 @@ app.get("/", async (req, res) => {
         //         return createdBook;
         //     })
         // });
-        Promise.all(createdGenres, createdBooks, genres).then((completed) => {
+        Promise.all(createdGenres, createdBooks).then((completed) => {
 						// for (let i = 1; i < 21; i++) {
 						// 	Books.findOne({where: {id: i} }).then((book) => {
 						// 		let path = "/public/uploads/texts/" + i + ".txt";

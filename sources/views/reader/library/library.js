@@ -25,6 +25,23 @@ export default class DataView extends JetView {
 					}
 				},
 				{
+					cols: [
+						{
+							view: "text",
+							localId: "textField"
+						},
+	      		{
+							view: "button",
+							value: "Find by title",
+							autowidth: true,
+							hotkey: "Enter",
+							click:() => {
+								this.filterText()
+							}
+						}
+					]
+				},
+				{
 					view: "datatable",
 					localId: "library",
 					select: true,
@@ -39,29 +56,49 @@ export default class DataView extends JetView {
 					},
 					columns: [
 						{
-							id: "image", header: "Image", width: 100, template: (obj) => {
-								let photo = "";
+							id: "image",
+							header: "Image",
+							width: 100,
+							template: (obj) => {
+								let cover = "";
 								if (obj.cover == "") {
-									photo = "<img class='defaultPhoto'>";
+									cover = "<img class='defaultPhoto'>";
 								}
 								else {
-									photo = "<img src =" + obj.cover.path + " class='smallPhoto'>";
+									cover = "<img src =" + obj.cover + " class='smallPhoto'>";
 								}
-								return "<div class='columnSettings'>" + photo + "</div>";
+								return "<div class='columnSettings'>" + cover + "</div>";
 							}
 						},
-						{ id: "title", header:["Title", { content:"serverFilter"}], fillspace: true },
-						{ id: "pages", header: "Pages" },
-						{ id: "year", header: "Year" },
-						{ id: "author", header: ["Author", { content:"serverFilter"}], fillspace: true, template: (obj) => {
-							return obj.authorName + " " + obj.authorSurname + " " + obj.authorPatronymic;
-						}
+						{
+							id: "title",
+							header: "Title",
+							fillspace: true
 						},
 						{
-							id: "genres", header: "Genres", fillspace: true, template: (obj) => {
+							id: "pages",
+							header: "Pages"
+						},
+						{
+							id: "year",
+							header: "Year"
+						},
+						{
+							id: "author",
+							header: "Author",
+							fillspace: true,
+							template: (obj) => {
+								return obj.authorName + " " + obj.authorSurname + " " + obj.authorPatronymic;
+							}
+						},
+						{
+							id: "genres",
+							header: "Genres",
+							fillspace: true,
+							template: (obj) => {
 								let genres = " ";
 								genres = obj.genres.map(function (genre) {
-									return " " + genre.genre;
+									return " " + genre.name;
 								});
 								return genres;
 							}
@@ -69,12 +106,16 @@ export default class DataView extends JetView {
 						{ id: "publisher", header: "Publisher" },
 						{ id: "country", header: "Country" },
 						{ id: "availableCount", header: "Available count" },
-						{ id: "buy", header: "Buy", template: (obj) => {
-							if (obj.availableCount > 0) {
-								return "<i class='fas fa-shopping-cart'></i>";
+						{
+							id: "buy",
+							header: "Buy",
+							template: (obj) => {
+								if (obj.availableCount > 0) {
+									return "<i class='fas fa-shopping-cart'></i>";
+								}
+								return "Not available";
 							}
-							return "Not available";
-						} }
+						}
 					],
 					onClick: {
 						"fa-shopping-cart": (e, id) => {
@@ -92,80 +133,83 @@ export default class DataView extends JetView {
 							}
 						},
 					},
-					url: "http://localhost:3016/books",
+					url: "http://localhost:3016/booksmongo",
 					save: {
 						url: "rest->http://localhost:3016/books/order",
 						updateFromResponse: true
 					},
+					datafetch: 10,
 					css: "webix_shadow_medium"
 				},
 				{
 					view:"pager",
-					id:"bottom",
-					size: 10,
+					id:"bottom"
 				},
 			]
 		};
 	}
+
+	filterText() {
+		let text = this.$$("textField").getValue();
+		this.setParam("search", text, true);
+		this.$$("library").clearAll();
+		this.$$("library").load(this.$$("library").config.url);
+	}
+
 	init() {
 		this.windowInfo = this.ui(WindowInfoView);
 		this.windowPopularAuthors = this.ui(PopularAuthorsView);
 		let windowAuthors = this.windowPopularAuthors;
 		let filteringcolumn = "";
+		const root = this;
 		let library = this.$$("library");
-		this.$$("library").registerFilter(
+		library.registerFilter(
 			this.$$("mytabbar"),
 			{
 				columnId: "State",
 				compare: function(value, filter) {
 					switch(filter) {
 						case "1":
-							library.clearAll();
 							filteringcolumn = "";
-							library.load(library.config.url);
 							break;
 						case "2":
-							library.clearAll();
 							filteringcolumn = "year";
-							library.load(library.config.url);
 							break;
 						case "3":
-							library.clearAll();
 							filteringcolumn = "pages";
-							library.load(library.config.url);
 							break;
 						case "4":
-							library.clearAll();
 							filteringcolumn = "title";
-							library.load(library.config.url);
 							break;
 						case "5":
-							library.clearAll();
 							filteringcolumn = "country";
-							library.load(library.config.url);
 							break;
 						case "6":
 							windowAuthors.showWindow();
 							break;
 						case "7":
-							library.clearAll();
 							filteringcolumn = "files";
-							library.load(library.config.url);
 							break;
 					}
+					library.clearAll();
+					library.load(library.config.url);
 				}
 			},
 			{
-				getValue:function(node){
+				getValue:function(node) {
 					return node.getValue();
 				},
-				setValue:function(node, value){
+				setValue:function(node, value) {
 					node.setValue(value);
 				}
 			}
 		);
 		webix.attachEvent("onBeforeAjax",
 			function(mode, url, data, request, headers) {
+				let params = root.getParam("search", true);
+				if (params) {
+					headers["filter"] = params;
+				}
 				headers["filteringcolumn"] = filteringcolumn;
 			}
 		);

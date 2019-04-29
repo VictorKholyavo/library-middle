@@ -9,7 +9,10 @@ export default class MyApp extends JetApp{
 			version : VERSION,
 			router 	: BUILD_AS_MODULE ? EmptyRouter : HashRouter,
 			debug 	: !PRODUCTION,
-			start 	: "/top"
+			start 	: "/top",
+			routes: {
+				"library": "/reader.menu/reader.library.library"
+			},
 		};
 
 		super({ ...defaults, ...config });

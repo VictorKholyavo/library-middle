@@ -1,87 +1,28 @@
 import { JetView } from "webix-jet";
+import Inputs from "./editform/inputs";
 
 let counter = 0;
 
 export default class EditFormView extends JetView {
 	config() {
+
 		const form = {
 			view: "form",
 			localId: "form",
 			scroll: false,
 			elements: [
-				{
-					view: "text",
-					name: "title",
-					label: "Title",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "pages",
-					label: "Pages",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "year",
-					label: "Year",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "authorName",
-					label: "Author Name",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "authorSurname",
-					label: "Author Surname",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "authorPatronymic",
-					label: "Author Patronymic",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "publisher",
-					label: "Publisher",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "country",
-					label: "Country",
-					labelWidth: 140
-				},
-				{
-					view: "text",
-					name: "availableCount",
-					label: "Available Count",
-					labelWidth: 140
-				},
+				Inputs
 			],
 			rules: {
 				$all: webix.rules.isNotEmpty
 			}
 		};
 
-		const uploaders = {
+		const textFilesForm = {
+			width: 270,
 			cols: [
 				{
 					rows: [
-						{
-							view:"uploader",
-							localId:"uploader_text",
-							value: "Upload texts",
-							link: "listOfTextFiles",
-							upload: "http://localhost:3016/books/uploadFiles",
-							autosend: false,
-							inputName: "text"
-						},
 						{
 							view: "list",
 							id: "listOfTextFiles",
@@ -89,19 +30,26 @@ export default class EditFormView extends JetView {
 							autoheight:true,
 							borderless:true
 						},
-					]
-				},
-				{
-					rows: [
+						{},
 						{
 							view:"uploader",
-							localId:"uploader_audio",
-							value: "Upload audio",
-							link: "listOfAudioFiles",
-							upload: "http://localhost:3016/books/uploadFiles",
+							localId:"uploader_text",
+							value: "Upload texts",
+							link: "listOfTextFiles",
+							upload: "http://localhost:3016/booksmongo/uploadFiles",
 							autosend: false,
-							inputName: "audio",
-						},
+							inputName: "text"
+						}
+					]
+				},
+			]
+		};
+
+		const audioFilesForm = {
+			width: 270,
+			cols: [
+				{
+					rows: [
 						{
 							view: "list",
 							id: "listOfAudioFiles",
@@ -109,11 +57,22 @@ export default class EditFormView extends JetView {
 							autoheight:true,
 							borderless:true
 						},
+						{},
+						{
+							view:"uploader",
+							localId:"uploader_audio",
+							value: "Upload audio",
+							link: "listOfAudioFiles",
+							upload: "http://localhost:3016/booksmongo/uploadFiles",
+							autosend: false,
+							inputName: "audio",
+						}
 					]
-				}
+				},
 			]
 		};
-		const buttons = {
+
+		const addGenreButton = {
 			cols: [
 				{
 					view: "button",
@@ -134,19 +93,21 @@ export default class EditFormView extends JetView {
 							},
 						});
 					}
-				},
-				{
-					view: "button",
-					localId: "updateButton",
-					value: "Save",
-					hotkey: "Enter",
-					click: () => {
-						const values = this.$getForm().getValues();
-						this.onSubmit(values);
-					}
 				}
 			]
 		};
+
+		const saveButton = {
+			view: "button",
+			localId: "updateButton",
+			type: "form",
+			value: "Save",
+			hotkey: "Enter",
+			click: () => {
+				const values = this.$getForm().getValues();
+				this.onSubmit(values);
+			}
+		}
 
 		return {
 			view: "window",
@@ -165,7 +126,18 @@ export default class EditFormView extends JetView {
 					}
 				]
 			},
-			body: {rows: [form, buttons, uploaders]},
+			body: {
+				rows: [
+					{
+						cols: [
+							textFilesForm,
+							{rows: [form, addGenreButton]},
+							audioFilesForm
+						]
+					},
+					saveButton
+				]
+			},
 			on: {
 				onHide: () => {
 					this.$getForm().clear();
@@ -177,7 +149,7 @@ export default class EditFormView extends JetView {
 			}
 		};
 	}
-	
+
 	showWindow(values, filled) {
 		let formTemplate = this.$$("formTemplate");
 		this.getRoot().show();

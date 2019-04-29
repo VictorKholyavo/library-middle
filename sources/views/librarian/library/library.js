@@ -36,7 +36,7 @@ export default class LibraryView extends JetView {
 							});
 							return genres;
 						}},
-						{ id: "publisher", editor: "text", header: "Publisher" },
+						{ id: "publisher", editor: "text", fillspace: true, header: "Publisher" },
 						{ id: "country", editor: "text", header: "Country" },
 						{ id: "availableCount", editor: "text", header: "Available count" },
 					],
@@ -45,6 +45,7 @@ export default class LibraryView extends JetView {
 						url: "rest->http://localhost:3016/booksmongo",
 						updateFromResponse: true
 					},
+					datafetch: 10,
 					on: {
 						onItemDblClick: () => {
 							const form = this.EditFormView;
@@ -58,9 +59,8 @@ export default class LibraryView extends JetView {
 					}
 				},
 				{
-					view:"pager",
-					id:"bottom",
-					size: 10
+					view: "pager",
+					id: "bottom"
 				}
 			]
 		};
@@ -72,10 +72,5 @@ export default class LibraryView extends JetView {
 
 	init() {
 		this.EditFormView = this.ui(EditFormView);
-		webix.attachEvent("onBeforeAjax",
-			function(mode, url, data, request, headers) {
-				headers["filteringcolumn"] = "";
-			}
-		);
 	}
 }
