@@ -6,18 +6,16 @@ export default class PopularAuthorsView extends JetView {
 			view: "window",
 			localId: "window",
 			width: 600,
-			height: 400,
+			height: 450,
 			position: "center",
 			modal: true,
 			borderless: true,
-
 			head: {
-				view:"toolbar", margin:-4, cols:[
+				view:"toolbar",
+				margin:-4,
+				cols:[
 					{ view:"label", label: "", localId: "titleOfBook", template: "Popular Authors" },
-					{ view:"icon", icon:"wxi-close", click: () => {
-						this.$$("window").hide();
-					}
-					}
+					{ view:"icon", icon:"wxi-close", click: () => { this.$$("window").hide(); } }
 				]
 			},
 			body: {
@@ -26,12 +24,12 @@ export default class PopularAuthorsView extends JetView {
 					{
 						view: "datatable",
 						scroll: false,
-						url: "http://localhost:3016/books/popularauthors",
+						url: "http://localhost:3016/booksmongo/popularauthors",
 						columns: [
 							{id: "authorName", header: "Author", fillspace: true, template: (obj) => {
 								return obj.authorName + " " + obj.authorSurname + " " + obj.authorPatronymic;
 							}},
-							{id: "BooksCount", header: "Books Count"},
+							{id: "count", header: "Books Count"},
 						]
 					}
 				]

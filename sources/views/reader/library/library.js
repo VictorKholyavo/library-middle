@@ -11,9 +11,9 @@ export default class DataView extends JetView {
 					localId: "mytabbar",
 					options: [
 						{id: 1, value: "All"},
-						{id: 2, value: "the Oldest"},
-						{id: 3, value: "Biggest (by pages)"},
-						{id: 4, value: "Biggest title"},
+						{id: 2, value: "Top 10 Oldest"},
+						{id: 3, value: "Top 10 biggest by pages"},
+						{id: 4, value: "Top 10 biggest by title"},
 						{id: 5, value: "Spain (1980 - 2000)"},
 						{id: 6, value: "Popular authors"},
 						{id: 7, value: "Audio and paper only"},
@@ -96,11 +96,12 @@ export default class DataView extends JetView {
 							header: "Genres",
 							fillspace: true,
 							template: (obj) => {
-								let genres = " ";
-								genres = obj.genres.map(function (genre) {
-									return " " + genre.name;
-								});
-								return genres;
+								console.log(obj);
+								// let genres = " ";
+								// genres = obj.genres.map(function (genre) {
+								// 	return " " + genre.name;
+								// });
+								// return genres;
 							}
 						},
 						{ id: "publisher", header: "Publisher" },

@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const Book = require("../schemas/library/books");
 const Genre = require("../schemas/library/genre");
+const TextFile = require("../schemas/library/textfile");
+const AudioFile = require("../schemas/library/audiofile");
 const { Status, Roles, User, UserDetailes, Cover, Phones, BookFiles, BookAudioFiles } = require("../../sequelize");
 
 const roles = [
@@ -37,8 +39,8 @@ const bookGenres = [
 	[8, 15, 43, 3, 30, 29, 2, 21, 33, 47]
 ];
 
-const books = [{"title":"Big Store, The","pages":390,"year":2008,"authorName":"Ozzy","authorSurname":"Rothwell","authorPatronymic":"Audréanne","publisher":"Jones, Stracke and Mraz","country":"Portugal","availableCount":8,"genres":[5,2],"cover":"/public/uploads/covers/1.jpg"},
-{"title":"Knights of Bloodsteel","pages":247,"year":2012,"authorName":"Gus","authorSurname":"Willavize","authorPatronymic":"Cléa","publisher":"Haley, Breitenberg and Dooley","country":"Latvia","availableCount":28,"genres":[5],"cover":"/public/uploads/covers/2.jpg"},
+const books = [{"title":"Big Store, The","pages":390,"year":1994,"authorName":"Ozzy","authorSurname":"Rothwell","authorPatronymic":"Audréanne","publisher":"Jones, Stracke and Mraz","country":"Spain","availableCount":8,"genres":[5,2],"cover":"/public/uploads/covers/1.jpg"},
+{"title":"Knights of Bloodsteel","pages":247,"year":2012,"authorName":"Ozzy","authorSurname":"Rothwell","authorPatronymic":"Audréanne","publisher":"Haley, Breitenberg and Dooley","country":"Latvia","availableCount":28,"genres":[5],"cover":"/public/uploads/covers/2.jpg"},
 {"title":"In the Mood For Love (Fa yeung nin wa)","pages":292,"year":1985,"authorName":"Deck","authorSurname":"Hunte","authorPatronymic":"Maëlys","publisher":"Greenholt Group","country":"Philippines","availableCount":22,"genres":[1,6],"cover":"/public/uploads/covers/3.jpg"},
 {"title":"Baboona","pages":317,"year":2004,"authorName":"Josepha","authorSurname":"Jochanany","authorPatronymic":"Lucrèce","publisher":"Wiegand, Lind and Mertz","country":"Zimbabwe","availableCount":6,"genres":[3],"cover":"/public/uploads/covers/4.jpg"},
 {"title":"Pride of St. Louis, The","pages":358,"year":1999,"authorName":"Roseanna","authorSurname":"Hurdidge","authorPatronymic":"Loïc","publisher":"Macejkovic Inc","country":"South Korea","availableCount":17,"genres":[1],"cover":"/public/uploads/covers/5.jpg"},
@@ -46,7 +48,7 @@ const books = [{"title":"Big Store, The","pages":390,"year":2008,"authorName":"O
 {"title":"Nowhere","pages":240,"year":2002,"authorName":"Brook","authorSurname":"Squirrell","authorPatronymic":"Véronique","publisher":"Mills and Sons","country":"France","availableCount":28,"genres":[3],"cover":"/public/uploads/covers/7.jpg"},
 {"title":"Spirited Away (Sen to Chihiro no kamikakushi)","pages":425,"year":1992,"authorName":"Trista","authorSurname":"Carwithan","authorPatronymic":"Véronique","publisher":"Leannon, Rohan and Pfeffer","country":"Colombia","availableCount":5,"genres":[3],"cover":"/public/uploads/covers/8.jpg"},
 {"title":"Atlas Shrugged: Who Is John Galt? (Atlas Shrugged: Part III)","pages":267,"year":1999,"authorName":"Brandie","authorSurname":"Chick","authorPatronymic":"Intéressant","publisher":"Hermiston, Rodriguez and Hane","country":"Nigeria","availableCount":29,"genres":[4],"cover":"/public/uploads/covers/9.jpg"},
-{"title":"Sniper, The","pages":342,"year":2010,"authorName":"Selene","authorSurname":"Korlat","authorPatronymic":"Nuó","publisher":"Maggio Group","country":"Poland","availableCount":28,"genres":[6],"cover":"/public/uploads/covers/10.jpg"},
+{"title":"Sniper, The","pages":342,"year":2010,"authorName":"Ozzy","authorSurname":"Rothwell","authorPatronymic":"Audréanne","publisher":"Maggio Group","country":"Poland","availableCount":28,"genres":[6],"cover":"/public/uploads/covers/10.jpg"},
 {"title":"Intolerable Cruelty","pages":408,"year":1990,"authorName":"Dwain","authorSurname":"Linger","authorPatronymic":"Östen","publisher":"Harvey, Ullrich and Abshire","country":"China","availableCount":27,"genres":[5],"cover":"/public/uploads/covers/11.jpg"},
 {"title":"Mabel's Married Life","pages":397,"year":2010,"authorName":"Flss","authorSurname":"Dwelley","authorPatronymic":"Mélia","publisher":"Anderson-Ebert","country":"Slovenia","availableCount":5,"genres":[4],"cover":"/public/uploads/covers/12.jpg"},
 {"title":"Green Lantern: Emerald Knights","pages":237,"year":1988,"authorName":"Tanya","authorSurname":"McAlpin","authorPatronymic":"Estée","publisher":"Rodriguez-Trantow","country":"Latvia","availableCount":25,"genres":[3],"cover":"/public/uploads/covers/13.jpg"},
@@ -75,7 +77,7 @@ const books = [{"title":"Big Store, The","pages":390,"year":2008,"authorName":"O
 {"title":"Little Red Flowers (Kan shang qu hen mei)","pages":430,"year":2012,"authorName":"Codie","authorSurname":"Hanne","authorPatronymic":"Léandre","publisher":"Bahringer-Osinski","country":"United Kingdom","availableCount":7,"genres":[1],"cover":"/public/uploads/covers/36.jpg"},
 {"title":"Deception","pages":207,"year":2001,"authorName":"Jon","authorSurname":"Darley","authorPatronymic":"Loïs","publisher":"Oberbrunner-Raynor","country":"Czech Republic","availableCount":5,"genres":[1],"cover":"/public/uploads/covers/37.jpg"},
 {"title":"Queen of Versailles, The","pages":220,"year":1993,"authorName":"Kellsie","authorSurname":"Pirie","authorPatronymic":"Zhì","publisher":"Fay-Renner","country":"Bangladesh","availableCount":22,"genres":[4],"cover":"/public/uploads/covers/38.jpg"},
-{"title":"12:08 East of Bucharest (A fost sau n-a fost?)","pages":361,"year":1993,"authorName":"Allix","authorSurname":"Coddrington","authorPatronymic":"Almérinda","publisher":"Schiller, Bauch and Hahn","country":"Portugal","availableCount":11,"genres":[5],"cover":"/public/uploads/covers/39.jpg"},
+{"title":"12:08 East of Bucharest (A fost sau n-a fost?)","pages":361,"year":1993,"authorName":"Kellsie","authorSurname":"Pirie","authorPatronymic":"Zhì","publisher":"Schiller, Bauch and Hahn","country":"Portugal","availableCount":11,"genres":[5],"cover":"/public/uploads/covers/39.jpg"},
 {"title":"Allan Quatermain and the Temple of Skulls","pages":364,"year":1994,"authorName":"Ernestine","authorSurname":"Siddle","authorPatronymic":"Frédérique","publisher":"Hoeger-Bergstrom","country":"Indonesia","availableCount":16,"genres":[3],"cover":"/public/uploads/covers/40.jpg"},
 {"title":"Homesman, The","pages":251,"year":2009,"authorName":"Kitty","authorSurname":"Brealey","authorPatronymic":"Cinéma","publisher":"Schmitt-Muller","country":"China","availableCount":14,"genres":[3],"cover":"/public/uploads/covers/41.jpg"},
 {"title":"Come to the Stable","pages":377,"year":2005,"authorName":"Lucias","authorSurname":"Burns","authorPatronymic":"Erwéi","publisher":"Lang LLC","country":"Russia","availableCount":11,"genres":[4],"cover":"/public/uploads/covers/42.jpg"},
@@ -271,12 +273,37 @@ app.get("/", async (req, res) => {
         //     })
         // });
         Promise.all(createdGenres, createdBooks).then((completed) => {
+					Book.find().then((books) => {
+						books.map(function (book, index) {
+							let textpath = "/public/uploads/textfiles/" + (index+1) + ".txt";
+							if (index < 20) {
+								let newTextFile = new TextFile ({
+									bookId: book._id,
+									path: textpath
+								});
+								newTextFile.save();
+							}
+							if (index > 36) {
+								let audiopath = "/public/uploads/audiofiles/" + (index+1) + ".txt";
+								let newAudioFile = new AudioFile ({
+									bookId: book._id,
+									path: audiopath
+								});
+								newAudioFile.save();
+							}
+							else return;
+							return book;
+						});
+					});
 						// for (let i = 1; i < 21; i++) {
-						// 	Books.findOne({where: {id: i} }).then((book) => {
+						// 	Book.find({where: {id: i} }).then((book) => {
 						// 		let path = "/public/uploads/texts/" + i + ".txt";
 						// 		book.createBookFile(({fileType: "text/plain", path: path, size: "3112", bookId: i}));
 						// 	});
 						// }
+
+
+
 						// for (let i = 50; i > 37; i--) {
 						// 	Books.findOne({where: {id: i} }).then((book) => {
 						// 		let path = "/public/uploads/audio/" + i + ".mp3";

@@ -13,6 +13,7 @@ export default class LibraryView extends JetView {
 					pager:"bottom",
 					columns: [
 						{id: "image", header: "Image", width: 100, template: (obj) => {
+							console.log(obj);
 							let photo = "";
 							if (obj.cover == "") {
 								photo = "<img class='defaultPhoto'>";
