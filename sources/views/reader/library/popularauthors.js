@@ -24,7 +24,7 @@ export default class PopularAuthorsView extends JetView {
 					{
 						view: "datatable",
 						scroll: false,
-						url: "http://localhost:3016/booksmongo/popularauthors",
+						url: "http://localhost:3016/books/popularauthors",
 						columns: [
 							{id: "authorName", header: "Author", fillspace: true, template: (obj) => {
 								return obj.authorName + " " + obj.authorSurname + " " + obj.authorPatronymic;

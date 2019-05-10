@@ -1,9 +1,11 @@
 import { JetView } from "webix-jet";
 import WindowInfoView from "./bookfullinfo";
 import PopularAuthorsView from "./popularauthors";
+import "../reader.css";
 
 export default class DataView extends JetView {
 	config() {
+		const root = this;
 		return {
 			rows: [
 				{
@@ -27,16 +29,36 @@ export default class DataView extends JetView {
 				{
 					cols: [
 						{
+							view: "radio", 
+							localId: "radio",
+							label: "Find by:",
+							css: "white-background radio-button", 
+							width: 300,
+							value: 1, 
+							options: [
+								{"id": 1, "value": "Title"},
+								{"id": 2, "value": "Author"}
+							],
+							on: {
+								onChange:(id) => this.changeFindField(id)
+							}
+						},
+						{
 							view: "text",
+							css: "white-background input-container",
 							localId: "textField"
 						},
-	      		{
+						{
 							view: "button",
+							type: "form",
+							localId: "buttonFilter",
 							value: "Find by title",
-							autowidth: true,
+							fieldForSearch: "title",
+							css: "white-background button-container",
+							width: 160,
 							hotkey: "Enter",
 							click:() => {
-								this.filterText()
+								this.filterText();
 							}
 						}
 					]
@@ -96,12 +118,11 @@ export default class DataView extends JetView {
 							header: "Genres",
 							fillspace: true,
 							template: (obj) => {
-								console.log(obj);
-								// let genres = " ";
-								// genres = obj.genres.map(function (genre) {
-								// 	return " " + genre.name;
-								// });
-								// return genres;
+								let genres = " ";
+								genres = obj.genres.map(function (genre) {
+									return " " + genre.name;
+								});
+								return genres;
 							}
 						},
 						{ id: "publisher", header: "Publisher" },
@@ -129,14 +150,18 @@ export default class DataView extends JetView {
 					on: {
 						onItemDblClick: (id) => {
 							if (id.column !== "buy") {
-								let values = this.$$("library").getItem(id.row);
-								this.windowInfo.showWindow(values);
+								let values;
+								webix.ajax().get("http://localhost:3016/bookFullInfo/" + id.row).then(response => {
+									values = response.json();	
+									root.windowInfo.showWindow(values);								
+								});
+								
 							}
 						},
 					},
-					url: "http://localhost:3016/booksmongo",
+					url: "http://localhost:3016/books",
 					save: {
-						url: "rest->http://localhost:3016/books/order",
+						// url: "rest->http://localhost:3016/books/order",
 						updateFromResponse: true
 					},
 					datafetch: 10,
@@ -148,6 +173,22 @@ export default class DataView extends JetView {
 				},
 			]
 		};
+	}
+	getButtonFilter() {
+		return this.$$("buttonFilter");
+	}
+	getRadioField() {
+		return this.$$("radio");
+	}
+	changeFindField(id) {
+		let selectedOption = "";
+		this.getRadioField().data.options.map(function (option) {
+			if (option.id == id) {
+				selectedOption = option.value;
+			}
+		});
+		this.getButtonFilter().define({value: "Find by "+ selectedOption +"", fieldForSearch: selectedOption.toLowerCase()});
+		this.getButtonFilter().refresh();
 	}
 
 	filterText() {
@@ -207,9 +248,11 @@ export default class DataView extends JetView {
 		);
 		webix.attachEvent("onBeforeAjax",
 			function(mode, url, data, request, headers) {
-				let params = root.getParam("search", true);
-				if (params) {
-					headers["filter"] = params;
+				let textSearch = root.getParam("search", true);
+				let searchfield = root.getButtonFilter().data.fieldForSearch;
+				if (textSearch && searchfield) {
+					headers["filter"] = textSearch;
+					headers["searchfield"] = searchfield;
 				}
 				headers["filteringcolumn"] = filteringcolumn;
 			}

@@ -11,3 +11,10 @@
 	padding-left: 20px;
 	font-size: 16px;
 }
+.white-background {
+	background-color: white;
+}
+
+.radio-button label {
+	padding-left: 10px;
+}

@@ -226,12 +226,11 @@ app.post("/add", upload.single("upload"), async (req, res) => {
 app.get("/like/:id", async (req, res) => {
 	Books.findOne({where: {id: req.params.id}}).then((book) => {
 		book.getUsers().then((users) => {
-			console.log(users.length);
 			return res.json(users.length)
 		})
 		return
 	})
-})
+});
 
 app.post("/like", async (req, res) => {
 	try {

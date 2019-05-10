@@ -5,35 +5,35 @@ const Genre = require("./genre");
 const BookSchema = new Schema ({
 	title: {
 		type: String,
-    required: true
+		required: true
 	},
 	pages: {
 		type: Number,
-    required: true
+		required: true
 	},
-  year: {
-    type: Number,
-    required: true
-  },
-  authorName: {
-    type: String,
-    required: true
-  },
+	year: {
+		type: Number,
+		required: true
+	},
+	authorName: {
+		type: String,
+		required: true
+	},
 	authorSurname: {
-    type: String,
-    required: true
-  },
+		type: String,
+		required: true
+	},
 	authorPatronymic: {
-    type: String,
-    required: true
-  },
+		type: String,
+		required: true
+	},
 	publisher: {
 		type: String,
-    required: true
+		required: true
 	},
 	country: {
 		type: String,
-    required: true
+		required: true
 	},
 	genres: [{
 		type: Schema.Types.ObjectId,
@@ -41,7 +41,7 @@ const BookSchema = new Schema ({
 	}],
 	availableCount: {
 		type: Number,
-    required: true
+		required: true
 	},
 	cover: {
 		type: String
@@ -57,16 +57,16 @@ const BookSchema = new Schema ({
 });
 
 BookSchema.methods.toClient = function toClient() {
-  const obj = this.toObject();
-  // // Rename fields:
+	const obj = this.toObject();
+	// // Rename fields:
 	obj.genres.map(function (genre) {
 		genre.id = genre._id;
 		delete genre._id;
 		return genre;
 	});
-  obj.id = obj._id.toHexString();
-  delete obj._id;
-  return obj;
+	obj.id = obj._id.toHexString();
+	delete obj._id;
+	return obj;
 }
 
 // Компилируем модель из схемы

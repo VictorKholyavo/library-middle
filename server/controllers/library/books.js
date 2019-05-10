@@ -1,11 +1,8 @@
 const express = require("express");
-let app = express();
-const url = require('url');
-const mongoose = require("mongoose");
+const app = express();
 const multer  = require("multer");
 const moveFile = require("move-file");
 const Book = require("../../schemas/library/books");
-const Genre = require("../../schemas/library/genre");
 const TextFile = require("../../schemas/library/textfile");
 const AudioFile = require("../../schemas/library/audiofile");
 
@@ -26,10 +23,15 @@ app.get("/", async (req, res) => {
 		let count = +req.query.count;
 		let order = {};
 		let total_count_filters = 10;
-		let sortCustomFunction = {};
-		let where = req.headers.filter ? { title: { $regex: req.headers.filter, $options: "i"} } : {};
+		let re = req.headers.filter ? new RegExp(req.headers.filter, "i") : {};
+		let searchOptions = [{}];
+		if (req.headers.searchfield && re) {
+			searchOptions = req.headers.searchfield === "author" 
+			? [ { "authorName": { $regex: re } }, {"authorSurname": { $regex: re }}, {"authorPatronymic": { $regex: re }} ]
+			: [ {[req.headers.searchfield]: { $regex: re }} ]
+		};
+		let where = req.headers.searchfield && re ? searchOptions : [{}];
 		let data = [];
-
 		switch(req.headers.filteringcolumn) {
 			case "year":
 				order = {year: "ASC"};
@@ -69,24 +71,30 @@ app.get("/", async (req, res) => {
 					},
 					{ $sort: {"length": -1} },
 					{ $limit: total_count_filters }
-				]).then((books) => {
-					Book.populate(books, {path: "genres"}).then((populatedBooks) => {
-						console.log(populatedBooks.map(function (book) {
-							book.id = book._id;
-							return book
-						}));
-						// return populatedBooks.map(book => book.toClient());
+				]).then(async books => {
+					return Book.populate(books, {path: "genres"}).then((populatedBooks) => {
+						return populatedBooks.map(function (populatedBook) {								
+							populatedBook.genres = populatedBook.genres.map(genre => {
+								genre = genre.toObject();
+								genre.id = genre._id;
+								delete genre._id;				
+								return genre;
+							});
+							populatedBook.id = populatedBook._id.toHexString();
+							delete populatedBook._id;								
+							return populatedBook;
+						});
 					});
 				});
 			}
 			else {
-				data = await Book.find(where, null, {sort: order}).populate("genres").skip(start).limit(count).then((books) => {
+				data = await Book.find({$or: where}, null, {sort: order}).populate("genres").skip(start).limit(count).then((books) => {
 					return books.map(book => book.toClient());
 				});
 			}
 		}
-		Book.count(where).exec(function (err, total_count) {
-			return res.json({"pos": start, "data": data, "total_count": req.headers.filteringcolumn ? total_count_filters : total_count});
+		Book.count({$or: where}).exec(function (err, total_count) {
+			return res.json({"pos": start, "data": data, "total_count": req.headers.filteringcolumn ? total_count < 10 ? total_count : total_count_filters : total_count});
 		});
 	} catch (error) {
 		res.status(500).send("Something broke");
@@ -104,14 +112,15 @@ app.get("/popularauthors", async (req, res) => {
 		{ $sort: {"count": -1} },
 		{ $limit: 10 }
 	]).then((authors) => {
-		return res.json(authors.map(function (author) {
+		return authors.map(function (author) {
 			author.authorName = author._id.authorName;
 			author.authorSurname = author._id.authorSurname;
 			author.authorPatronymic = author._id.authorPatronymic;
 			delete author._id;
 			return author;
-		}));
+		});
 	});
+	return res.json(authorsByBooksCount);
 });
 
 app.post("/uploadFiles", upload.fields([{name: "text", maxCount: 3}, {name: "audio", maxCount: 3}]), async (req, res) => {
