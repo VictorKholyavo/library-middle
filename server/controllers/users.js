@@ -74,7 +74,7 @@ app.post("/login/status", passport.authenticate('jwt', {session: false}), async 
 app.get("/getInfo", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     const userDetailes = await User.findOne({where: {id: req.user.id}, include: [UserDetailes]});
     return res.json(userDetailes.usersdetaile.dataValues);
-})
+});
 
 app.post("/logout", (req, res) => {
 	req.logout();
@@ -205,8 +205,8 @@ app.post("/registration", async (req, res) => {
 });
 
 app.get("/comments", async (req, res) => {
-    const usersToAdmin = await User.findAll({include: [UserDetailes]});
-    return res.json(usersToAdmin.map((user) => {
+    const usersForComments = await User.findAll({include: [UserDetailes]});
+    return res.json(usersForComments.map(user => {
         let fullname = user.userdetaile.dataValues.firstname;
         user = user.userdetaile.dataValues;
 				user.value = fullname;

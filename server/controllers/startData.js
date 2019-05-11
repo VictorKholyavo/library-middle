@@ -4,7 +4,7 @@ const Book = require("../schemas/library/books");
 const Genre = require("../schemas/library/genre");
 const TextFile = require("../schemas/library/textfile");
 const AudioFile = require("../schemas/library/audiofile");
-const { Status, Roles, User, UserDetailes, Cover, Phones, BookFiles, BookAudioFiles } = require("../../sequelize");
+const { Status, Roles, User, UserDetailes, Phones } = require("../../sequelize");
 
 const roles = [
     {uuid: 1, role: "reader"},
@@ -27,8 +27,6 @@ const statuses = [
 	{id: 3, status: "Declined"},
 	{id: 4, status: "Return"},
 ];
-
-const genrebook1 = [31, 25, 28, 30, 4, 17, 43, 40, 34, 48, 37, 36, 50, 14];
 
 const bookGenres = [
 	[31, 25, 28, 30, 4, 17, 43, 40, 34, 48, 37, 36, 50, 14],
@@ -204,7 +202,7 @@ const phones = [{"id":1,"phone":"305-637-6527","userId":1},
 {"id":48,"phone":"188-747-1809","userId":12},
 {"id":49,"phone":"494-201-6491","userId":13},
 {"id":50,"phone":"984-493-8365","userId":14},
-{"id":51,"phone":"980-447-0747","userId":15}]
+{"id":51,"phone":"980-447-0747","userId":15}];
 
 app.get("/", async (req, res) => {
     try {
@@ -238,7 +236,7 @@ app.get("/", async (req, res) => {
 					return newGenre.save();
         });
 
-				let createdBooks = books.map(async (book, index) => {
+				let createdBooks = books.map(async (book) => {
 					let newBook = await new Book ({
 						title: book.title,
 						pages: book.pages,
@@ -254,7 +252,7 @@ app.get("/", async (req, res) => {
 					return newBook.save(function (err, book) {
 						Genre.count().exec(function (err, count) {
 					  // Get a random entry
-					  let random = Math.floor(Math.random() * count)
+					  let random = Math.floor(Math.random() * count);
 					  // Again query all users but only fetch one offset by our random #
 					  Genre.findOne().skip(random).exec(
 					    function (err, genre) {

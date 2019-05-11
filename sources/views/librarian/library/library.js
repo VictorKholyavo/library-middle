@@ -13,7 +13,6 @@ export default class LibraryView extends JetView {
 					pager:"bottom",
 					columns: [
 						{id: "image", header: "Image", width: 100, template: (obj) => {
-							console.log(obj);
 							let photo = "";
 							if (obj.cover == "") {
 								photo = "<img class='defaultPhoto'>";
@@ -41,9 +40,9 @@ export default class LibraryView extends JetView {
 						{ id: "country", editor: "text", header: "Country" },
 						{ id: "availableCount", editor: "text", header: "Available count" },
 					],
-					url: "http://localhost:3016/booksmongo",
+					url: "http://localhost:3016/books",
 					save: {
-						url: "rest->http://localhost:3016/booksmongo",
+						url: "rest->http://localhost:3016/books",
 						updateFromResponse: true
 					},
 					datafetch: 10,

@@ -60,9 +60,9 @@ export default class WindowInfoView extends JetView {
 										click: () => {
 											let bookId = webix.storage.local.get("bookId");
 											let likes = this.$$("likes");
-											webix.ajax().post("http://localhost:3016/bookFullInfo/like", {bookId: bookId}).then((response) => {
+											webix.ajax().post("http://localhost:3016/like", {bookId: bookId}).then(response => {
 												response = response.json();
-												likes.define({template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Likes: " + response + "</span></div></div>"});
+												likes.define({template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Likes: " + response.likes + "</span></div></div>"});
 												likes.refresh();
 											}, function (err) {
 												webix.message({type: "error", text: err.responseText});
@@ -76,13 +76,12 @@ export default class WindowInfoView extends JetView {
 					{
 						view: "comments",
 						localId: "commentsView",
-						select: true,
 						width: 300,
 						users: "http://localhost:3016/users/comments",
 						save: {
 							url: (id, e, body) => {
 								let bookId = webix.storage.local.get("bookId");
-								return webix.ajax().post("http://localhost:3016/comments/addcomment", {
+								return webix.ajax().post("http://localhost:3016/comments", {
 									text: body.text,
 									date: body.date,
 									bookId: bookId
@@ -90,42 +89,7 @@ export default class WindowInfoView extends JetView {
 							},
 							updateFromResponse: true
 						}
-					},
-					{
-						view: "button",
-						value: "GET COMMENTS",
-						click: () => {
-							webix.ajax().get("http://localhost:3016/comments");
-						}
 					}
-					// {
-					// 	rows: [
-					// 		{
-					// 			template: "Answers: ",
-					// 			height: 50,
-					// 		},
-					// 		{
-					// 			view: "newComments",
-					// 			localId: "answersView",
-					// 			select: true,
-					// 			width: 300,
-					// 			users: "http://localhost:3016/users/comments",
-					// 			save: {
-					// 				url: (id, e, body) => {
-					// 					let bookId = webix.storage.local.get("bookId");
-					// 					let commentId = webix.storage.local.get("commentId");
-					// 					return webix.ajax().post("http://localhost:3016/comments/answers/addanswer", {
-					// 						text: body.text,
-					// 						date: body.date,
-					// 						parentId: commentId,
-					// 						bookId: bookId
-					// 					});
-					// 				},
-					// 				updateFromResponse: true
-					// 			}
-					// 		}
-					// 	]
-					// }
 				]
 			},
 			on: {
@@ -144,12 +108,6 @@ export default class WindowInfoView extends JetView {
 		return this.$$("commentTextArea");
 	}
 
-	answer(values) {
-		let nameIndex = values.indexOf(",");
-		values = values.slice(nameIndex + 3, -1);
-		webix.ajax().post("http://localhost:3016/comments/addcomment" + values);
-	}
-
 	showWindow(values) {
 		this.$windowInfo().show();
 		let user_id = webix.storage.local.get("UserInfo").user_id;
@@ -163,7 +121,6 @@ export default class WindowInfoView extends JetView {
 			comments.parse(data);
 			comments.setCurrentUser(user_id);
 		});
-
 		let image = "<img class='photo' src=" + values.cover + ">";
 		this.$$("likes").define({template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Likes: " + values.likes + "</span></div></div>"});
 		this.$$("cover").define({template: "<div class='columnSettings'>" + image + "</div>"});

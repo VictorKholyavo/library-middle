@@ -63,7 +63,7 @@ export default {
 			options:{
 				body: {
 					template: "#name#",
-					url:"http://localhost:3016/genresmongo",
+					url:"http://localhost:3016/books/genres",
 				}
 			},
 		}

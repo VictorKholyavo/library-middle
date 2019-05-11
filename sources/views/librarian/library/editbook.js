@@ -36,7 +36,7 @@ export default class EditFormView extends JetView {
 							localId:"uploader_text",
 							value: "Upload texts",
 							link: "listOfTextFiles",
-							upload: "http://localhost:3016/booksmongo/uploadFiles",
+							upload: "http://localhost:3016/books/uploadfiles",
 							autosend: false,
 							inputName: "text"
 						}
@@ -63,7 +63,7 @@ export default class EditFormView extends JetView {
 							localId:"uploader_audio",
 							value: "Upload audio",
 							link: "listOfAudioFiles",
-							upload: "http://localhost:3016/booksmongo/uploadFiles",
+							upload: "http://localhost:3016/books/uploadfiles",
 							autosend: false,
 							inputName: "audio",
 						}
@@ -88,7 +88,7 @@ export default class EditFormView extends JetView {
 							options:{
 								body: {
 									template: "#name#",
-									url:"http://localhost:3016/genresmongo",
+									url:"http://localhost:3016/books/genres",
 								}
 							},
 						});
@@ -107,7 +107,7 @@ export default class EditFormView extends JetView {
 				const values = this.$getForm().getValues();
 				this.onSubmit(values);
 			}
-		}
+		};
 
 		return {
 			view: "window",
@@ -168,7 +168,7 @@ export default class EditFormView extends JetView {
 					options:{
 						body: {
 							template: "#name#",
-							url:"http://localhost:3016/genresmongo",
+							url:"http://localhost:3016/books/genres",
 						}
 					},
 				});

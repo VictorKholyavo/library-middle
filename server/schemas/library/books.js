@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Genre = require("./genre");
 
 const BookSchema = new Schema ({
 	title: {
@@ -45,15 +44,7 @@ const BookSchema = new Schema ({
 	},
 	cover: {
 		type: String
-	},
-	// text: [{
-	// 	type: Schema.Types.ObjectId,
-	// 	ref: "Genre"
-	// }],
-	// audio: [{
-	// 	type: Schema.Types.ObjectId,
-	// 	ref: "Genre"
-	// }],
+	}
 });
 
 BookSchema.methods.toClient = function toClient() {
@@ -67,9 +58,9 @@ BookSchema.methods.toClient = function toClient() {
 	obj.id = obj._id.toHexString();
 	delete obj._id;
 	return obj;
-}
+};
 
 // Компилируем модель из схемы
 const Book = mongoose.model("Book", BookSchema);
 
-module.exports = Book
+module.exports = Book;
