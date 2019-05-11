@@ -151,7 +151,7 @@ export default class DataView extends JetView {
 						onItemDblClick: (id) => {
 							if (id.column !== "buy") {
 								let values;
-								webix.ajax().get("http://localhost:3016/bookFullInfo/" + id.row).then(response => {
+								webix.ajax().get("http://localhost:3016/bookinfo/" + id.row).then(response => {
 									values = response.json();	
 									root.windowInfo.showWindow(values);								
 								});

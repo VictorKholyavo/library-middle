@@ -51,7 +51,7 @@ export default class FormView extends JetView {
 											value: "Upload cover",
 											width: 250,
 											link: "mylist",
-											upload: "http://localhost:3016/booksmongo/add",
+											upload: "http://localhost:3016/books",
 											autosend: false,
 											accept:"image/png, image/gif, image/jpg",
 											multiple: false,
@@ -73,7 +73,7 @@ export default class FormView extends JetView {
 											options: {
 												body: {
 													template: "#name#",
-													url:"http://localhost:3016/genresmongo",
+													url:"http://localhost:3016/books/genres",
 												}
 											},
 										});

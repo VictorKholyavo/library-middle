@@ -1,4 +1,4 @@
-import { JetView, plugins } from "webix-jet";
+import {JetView, plugins} from "webix-jet";
 import "./reader.css";
 
 export default class TopView extends JetView {
@@ -41,19 +41,34 @@ export default class TopView extends JetView {
 									template: " ",
 									borderless: true,
 									css: "hello-template",
-									width: 240},
+									width: 240
+								},
 								{},
+								{
+									view: "button",
+									value: "Get books",
+									width: 250,
+									click: () => {
+										webix.ajax().get("http://localhost:3016/booksa").then(response => {
+											response = response.json();
+											console.log(response);
+										});
+									}
+								},
 								{
 									view: "button",
 									value: "Personal Information",
 									width: 250,
-									click: () => { this.show("personalPage"); }
+									click: () => {
+										this.show("personalPage");
+									}
 								},
 								{
 									view: "button",
 									value: "Logout",
 									width: 150,
-									click: () => {this.do_logout();
+									click: () => {
+										this.do_logout();
 										window.location.reload(true);
 									}
 								}
@@ -74,13 +89,16 @@ export default class TopView extends JetView {
 		};
 		return ui;
 	}
+
 	$getHelloTemplate() {
 		return this.$$("helloTemplate");
 	}
+
 	do_logout() {
 		const user = this.app.getService("user");
 		user.logout();
 	}
+
 	init() {
 		let username = webix.storage.local.get("UserInfo").username;
 		this.$getHelloTemplate().define({template: "Hi, " + username + ". You are reader"});

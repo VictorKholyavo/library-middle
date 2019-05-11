@@ -11,9 +11,7 @@ const OrderController = require("./server/controllers/userOrder");
 const StatusController = require("./server/controllers/status");
 const StartDataController = require("./server/controllers/startData");
 
-const BooksMongoController = require("./server/controllers/library/books");
 const GenresMongoController = require("./server/controllers/library/genre");
-const BookFullInfoController = require("./server/controllers/bookFullInfo/bookFullInfo");
 
 const routes = require("./server/routes");
 
@@ -22,10 +20,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 mongoose.connect("mongodb://localhost:27017/myapir", function (err) {
-	app.use("/", routes);
-	app.use("/books", BooksMongoController);
+	app.use("/", passport.authenticate("jwt", {session: false}), routes);
 	app.use("/genres", GenresMongoController);
-	app.use("/bookFullInfo", passport.authenticate("jwt", {session: false}), BookFullInfoController);
 });
 
 app.use("/users", UsersController);
