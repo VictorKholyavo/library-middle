@@ -60,6 +60,14 @@ BookSchema.methods.toClient = function toClient() {
 	return obj;
 };
 
+BookSchema.methods.toClientOrders = function toClientOrders() {
+	const obj = this.toObject();
+	// // Rename fields:
+	obj.id = obj._id.toHexString();
+	delete obj._id;
+	return obj;
+};
+
 // Компилируем модель из схемы
 const Book = mongoose.model("Book", BookSchema);
 

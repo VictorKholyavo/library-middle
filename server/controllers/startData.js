@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const Book = require("../schemas/library/books");
+const BookRating = require("../schemas/bookInfo/bookRating");
 const Genre = require("../schemas/library/genre");
 const TextFile = require("../schemas/library/textfile");
 const AudioFile = require("../schemas/library/audiofile");
@@ -26,6 +27,7 @@ const statuses = [
 	{id: 2, status: "Accept"},
 	{id: 3, status: "Declined"},
 	{id: 4, status: "Return"},
+	{id: 5, status: "Accept returning"}
 ];
 
 const bookGenres = [
@@ -206,28 +208,28 @@ const phones = [{"id":1,"phone":"305-637-6527","userId":1},
 
 app.get("/", async (req, res) => {
     try {
-        // let createdStatuses = statuses.map((status) => {
-        //     return Status.create(status)
-        // });
-				//
-        // let createdRoles = roles.map((role) => {
-        //     return Roles.create(role)
-        // });
-				//
-        // Promise.all(createdRoles).then((completed) => {
-        //     let createdUsers = users.map((user, index) => {
-        //         return User.create(user).then((user) => {
-        //             return UserDetailes.create(usersDetailes[index]);
-        //         });
-        //     });
-        //     Promise.all(createdUsers).then(() => {
-        //         phones.map((phone) => {
-        //             // phone.phone = phone.phone.replace(/-/g, "");
-        //             return Phones.create({phone: phone.phone, userId: phone.userId});
-        //         })
-        //     });
-        //     return
-        // });
+        let createdStatuses = statuses.map((status) => {
+            return Status.create(status)
+        });
+
+        let createdRoles = roles.map((role) => {
+            return Roles.create(role)
+        });
+
+        Promise.all(createdRoles).then((completed) => {
+            let createdUsers = users.map((user, index) => {
+                return User.create(user).then((user) => {
+                    return UserDetailes.create(usersDetailes[index]);
+                });
+            });
+            Promise.all(createdUsers).then(() => {
+                phones.map((phone) => {
+                    // phone.phone = phone.phone.replace(/-/g, "");
+                    return Phones.create({phone: phone.phone, userId: phone.userId});
+                })
+            });
+            return
+        });
 
 				let createdGenres = genres.map(async (genre) => {
           let newGenre = await new Genre ({
@@ -260,20 +262,17 @@ app.get("/", async (req, res) => {
 								book.save();
 					    });
 						});
+						let newBookRating = new BookRating ({
+							bookId: book._id
+						});
+						newBookRating.save();
 					});
 				});
 
-        // let createdBooks = books.map((book) => {
-        //     return Books.create(book).then((createdBook) => {
-        //         let path = "/public/uploads/covers/" + createdBook.dataValues.id + ".jpg";
-        //         createdBook.createCover({path: path, fileType: "image/jpeg", bookId: createdBook.dataValues.id});
-        //         return createdBook;
-        //     })
-        // });
         Promise.all(createdGenres, createdBooks).then((completed) => {
 					Book.find().then((books) => {
 						books.map(function (book, index) {
-							let textpath = "/public/uploads/textfiles/" + (index+1) + ".txt";
+							let textpath = "./public/uploads/textfiles/" + (index+1) + ".txt";
 							if (index < 20) {
 								let newTextFile = new TextFile ({
 									bookId: book._id,
@@ -282,7 +281,7 @@ app.get("/", async (req, res) => {
 								newTextFile.save();
 							}
 							if (index > 36) {
-								let audiopath = "/public/uploads/audiofiles/" + (index+1) + ".txt";
+								let audiopath = "./public/uploads/audiofiles/" + (index+1) + ".txt";
 								let newAudioFile = new AudioFile ({
 									bookId: book._id,
 									path: audiopath
@@ -293,29 +292,12 @@ app.get("/", async (req, res) => {
 							return book;
 						});
 					});
-						// for (let i = 1; i < 21; i++) {
-						// 	Book.find({where: {id: i} }).then((book) => {
-						// 		let path = "/public/uploads/texts/" + i + ".txt";
-						// 		book.createBookFile(({fileType: "text/plain", path: path, size: "3112", bookId: i}));
-						// 	});
-						// }
-
-
-
-						// for (let i = 50; i > 37; i--) {
-						// 	Books.findOne({where: {id: i} }).then((book) => {
-						// 		let path = "/public/uploads/audio/" + i + ".mp3";
-						// 		book.createBookAudio(({fileType: "audio/mp3", path: path, size: "311231", bookId: i}));
-						// 	});
-						// }
         });
 
-
-		return res.send("OK!")
+		return res.send("Start data is ready!")
     } catch (error) {
 
     }
-
 });
 
 module.exports = app;

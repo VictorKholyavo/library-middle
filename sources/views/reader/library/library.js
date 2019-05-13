@@ -143,7 +143,7 @@ export default class DataView extends JetView {
 						"fa-shopping-cart": (e, id) => {
 							let values = this.$$("library").getItem(id);
 							let data = {bookId: values.id};
-							webix.ajax().post("http://localhost:3016/order/add", data);
+							webix.ajax().post("http://localhost:3016/orders/" + id);
 							webix.message({text: "Your order of " + values.title + " is pending. Wait an answer from librarian..."});
 						},
 					},
@@ -161,7 +161,7 @@ export default class DataView extends JetView {
 					},
 					url: "http://localhost:3016/books",
 					save: {
-						// url: "rest->http://localhost:3016/books/order",
+						url: "rest->http://localhost:3016/orders",
 						updateFromResponse: true
 					},
 					datafetch: 10,

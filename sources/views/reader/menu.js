@@ -46,17 +46,6 @@ export default class TopView extends JetView {
 								{},
 								{
 									view: "button",
-									value: "Get books",
-									width: 250,
-									click: () => {
-										webix.ajax().get("http://localhost:3016/booksa").then(response => {
-											response = response.json();
-											console.log(response);
-										});
-									}
-								},
-								{
-									view: "button",
 									value: "Personal Information",
 									width: 250,
 									click: () => {

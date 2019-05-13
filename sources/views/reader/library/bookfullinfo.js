@@ -100,14 +100,6 @@ export default class WindowInfoView extends JetView {
 		};
 	}
 
-	$getTree() {
-		return this.$$("tree");
-	}
-
-	$getCommentTextArea() {
-		return this.$$("commentTextArea");
-	}
-
 	showWindow(values) {
 		this.$windowInfo().show();
 		let user_id = webix.storage.local.get("UserInfo").user_id;
@@ -140,13 +132,9 @@ export default class WindowInfoView extends JetView {
 		this.$$("cover").refresh();
 	}
 
-	init() {
-	}
-
 	$windowInfo() {
 		return this.$$("window");
 	}
-
 	hideForm() {
 		this.getRoot().hide();
 	}

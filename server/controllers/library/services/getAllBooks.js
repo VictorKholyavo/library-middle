@@ -1,5 +1,12 @@
 const Book = require("../../../schemas/library/books");
 const AudioFile = require("../../../schemas/library/audiofile");
+const {SearchResults} = require("../../../../sequelize");
+
+function addSearchResultToDB(searchResult) {
+	SearchResults.findOne({where: {searchResult: searchResult}}).then(result => {
+		if (!result) SearchResults.create({searchResult: searchResult.toLowerCase()});
+	})
+}
 
 function getAllBooksService(start, count, headers) {
 	let order = {};
@@ -8,12 +15,17 @@ function getAllBooksService(start, count, headers) {
 	let searchOptions = [{}];
 	if (headers.searchfield && re) {
 		searchOptions = headers.searchfield === "author"
-			? [ { "authorName": { $regex: re } }, {"authorSurname": { $regex: re }}, {"authorPatronymic": { $regex: re }} ]
-			: [ {[headers.searchfield]: { $regex: re }} ];
+			? [{"authorName": {$regex: re}}, {"authorSurname": {$regex: re}}, {"authorPatronymic": {$regex: re}}]
+			: [{[headers.searchfield]: {$regex: re}}];
 	}
+
+	if (headers.filter) {
+		addSearchResultToDB(headers.filter)
+	}
+
 	let where = headers.searchfield && re ? searchOptions : [{}];
 
-	switch(headers.filteringcolumn) {
+	switch (headers.filteringcolumn) {
 		case "year":
 			order = {year: "ASC"};
 			break;
@@ -22,7 +34,7 @@ function getAllBooksService(start, count, headers) {
 			break;
 		case "country":
 			order = {year: "ASC"};
-			where = [{ country: "Spain", year: {$gte: 1980, $lte: 2000} }];
+			where = [{country: "Spain", year: {$gte: 1980, $lte: 2000}}];
 			break;
 	}
 
@@ -34,8 +46,7 @@ function getAllBooksService(start, count, headers) {
 					total_count_filters = booksWithAudio.length;
 					return booksWithAudio.map(book => book.booksWithAudioToClient());
 				});
-			}
-			else if (headers.filteringcolumn === "title") {
+			} else if (headers.filteringcolumn === "title") {
 				data = await Book.aggregate([
 					{
 						$project: {
@@ -53,8 +64,8 @@ function getAllBooksService(start, count, headers) {
 							"length": {$strLenCP: "$title"}
 						}
 					},
-					{ $sort: {"length": -1} },
-					{ $limit: total_count_filters }
+					{$sort: {"length": -1}},
+					{$limit: total_count_filters}
 				]).then(books => {
 					return Book.populate(books, {path: "genres"}).then((populatedBooks) => {
 						return populatedBooks.map(function (populatedBook) {
@@ -70,15 +81,18 @@ function getAllBooksService(start, count, headers) {
 						});
 					});
 				});
-			}
-			else {
+			} else {
 				data = await Book.find({$or: where}, null, {sort: order}).populate("genres").skip(+start).limit(+count).then(books => {
 					return books.map(book => book.toClient());
 				});
 			}
 		}
 		Book.count({$or: where}).exec(function (err, total_count) {
-			return resolve({"pos": +start, "data": data, "total_count": headers.filteringcolumn ? total_count < 10 ? total_count : total_count_filters : total_count});
+			return resolve({
+				"pos": +start,
+				"data": data,
+				"total_count": headers.filteringcolumn ? total_count < 10 ? total_count : total_count_filters : total_count
+			});
 		});
 	});
 }

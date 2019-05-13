@@ -5,6 +5,7 @@ const RolesModel = require("./server/models/roles");
 const PhonesModel = require("./server/models/phones");
 const UserOrderModel = require("./server/models/userOrder");
 const StatusModel = require("./server/models/status");
+const SearchResultsModel = require("./server/models/searchResults");
 
 const sequelize = new Sequelize("library", "root", "", {
 	host: "localhost",
@@ -33,10 +34,11 @@ User.hasMany(Phones);
 const UserOrder = UserOrderModel(sequelize, Sequelize);
 const Status = StatusModel(sequelize, Sequelize);
 User.hasMany(UserOrder);
-// Books.hasOne(UserOrder);
-// UserOrder.belongsTo(Books);
 UserOrder.belongsTo(Status);
 UserOrder.belongsTo(User);
+
+// SEARCH RESULTS //
+const SearchResults = SearchResultsModel(sequelize, Sequelize);
 
 sequelize.sync()
 	.then(() => {
@@ -49,5 +51,6 @@ module.exports = {
 	Roles,
 	Phones,
 	UserOrder,
-	Status
+	Status,
+	SearchResults
 };

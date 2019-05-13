@@ -56,6 +56,12 @@ export default class LibrarianMenu extends JetView {
 								{},
 								{
 									view: "button",
+									value: "MAIL",
+									width: 250,
+									click: () => { webix.ajax().get("http://localhost:3016/mailing"); }
+								},
+								{
+									view: "button",
 									value: "Personal Information",
 									width: 250,
 									click: () => { this.show("personalPage"); }

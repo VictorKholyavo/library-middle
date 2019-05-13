@@ -1,4 +1,5 @@
 const Book = require("../../../schemas/library/books");
+const BookRating = require("../../../schemas/bookInfo/bookRating");
 const moveFile = require("move-file");
 
 function addBookService(file, bookInfo) {
@@ -24,6 +25,10 @@ function addBookService(file, bookInfo) {
 				book.genres.push(bookInfo[key]);
 			}
 		}
+		let newBookRating = new BookRating ({
+			bookId: book._id
+		});
+		newBookRating.save();
 		return book.save();
 	});
 }

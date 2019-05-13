@@ -8,7 +8,8 @@ const {
 	comments,
 	likes,
 	bookinfo,
-	orders
+	orders,
+	email
 } = controllers;
 
 const storage = multer.diskStorage({
@@ -51,6 +52,14 @@ router.post("/comments", c(comments.addComment, req => [req.user, req.body]));
 router.post("/like", c(likes.addLike, req => [req.user, req.body.bookId]));
 
 // ORDERS (USER & LIBRARIAN) //
-router.get("/orders/:id", c(orders.getUserOrders, req => [req.user]));
+router.get("/orders/all", c(orders.getAllOrders, req => [req]));
+router.put("/orders/all/:id", c(orders.editOrder, req => [req.params.id, req.body]));
+router.delete("/orders/all/:id", c(orders.deleteOrder, req => [req.params.id]));
+
+router.get("/orders", c(orders.getUserOrders, req => [req.user.id]));
+router.post("/orders/:id", c(orders.addUserOrder, req => [req.user.id, req.params.id]));
+router.put("/orders/:id", c(orders.editOrderByUser, req => [req.params.id, req.body]));
+
+router.get("/mailing", c(email.main, req => [req.user.id]));
 
 module.exports = router;

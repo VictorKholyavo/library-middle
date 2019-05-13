@@ -7,7 +7,6 @@ const passport = require("passport");
 const UsersController = require("./server/controllers/users");
 const UsersDetailesController = require("./server/controllers/usersDetailes");
 const RolesController = require("./server/controllers/roles");
-const OrderController = require("./server/controllers/userOrder");
 const StatusController = require("./server/controllers/status");
 const StartDataController = require("./server/controllers/startData");
 
@@ -28,7 +27,6 @@ app.use("/users", UsersController);
 app.use("/usersdetailes", UsersDetailesController);
 app.use("/roles", RolesController);
 
-app.use("/order", passport.authenticate("jwt", {session: false}), OrderController);
 app.use("/status", passport.authenticate("jwt", {session: false}), StatusController);
 
 app.use("/startData", StartDataController);
