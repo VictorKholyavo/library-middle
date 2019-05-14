@@ -1,12 +1,13 @@
 import {JetView} from "webix-jet";
+import "../reader.css";
 
 export default class WindowInfoView extends JetView {
 	config() {
 		return {
 			view: "window",
 			localId: "window",
-			width: 1200,
-			height: 600,
+			width: 1500,
+			height: 700,
 			position: "center",
 			modal: true,
 			borderless: true,
@@ -28,9 +29,14 @@ export default class WindowInfoView extends JetView {
 							{
 								rows: [
 									{
-										template: " ",
-										width: 200,
+										view: "covertemplate",
+										width: 250,
 										localId: "cover"
+									},
+									{
+										view: "audio",
+										name: "audio",
+										localId: "audio"
 									},
 									{
 										view: "button",
@@ -44,14 +50,13 @@ export default class WindowInfoView extends JetView {
 							{
 								rows: [
 									{
-										template: " ",
+										view: "bookinfo",
 										width: 300,
 										localId: "info"
 									},
 									{
-										view: "template",
+										view: "likes",
 										localId: "likes",
-										template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Likes: </span></div></div>",
 										height: 60
 									},
 									{
@@ -62,8 +67,7 @@ export default class WindowInfoView extends JetView {
 											let likes = this.$$("likes");
 											webix.ajax().post("http://localhost:3016/like", {bookId: bookId}).then(response => {
 												response = response.json();
-												likes.define({template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Likes: " + response.likes + "</span></div></div>"});
-												likes.refresh();
+												likes.setValue(response.likes);
 											}, function (err) {
 												webix.message({type: "error", text: err.responseText});
 											});
@@ -102,39 +106,32 @@ export default class WindowInfoView extends JetView {
 
 	showWindow(values) {
 		this.$windowInfo().show();
-		let user_id = webix.storage.local.get("UserInfo").user_id;
-		let genres = values.genres.map(function (genre) {
-			return " " + genre.genre;
-		});
-		let comments = this.$$("commentsView");
 		webix.storage.local.put("bookId", values.id);
+		let user_id = webix.storage.local.get("UserInfo").user_id;
+		let comments = this.$$("commentsView");
+		let url = "http://localhost:3016/bookinfo/audio/" + values.id + "?Bearer=" + webix.storage.local.get("UserInfo").token + "";
+		let genres = values.genres.map(genre => " " + genre.name);
+		Promise.all(genres).then(() => {
+			values.genres = genres;
+			this.$$("info").setValue(values);
+		});
+		this.$$("likes").setValue(values.likes);
 		webix.ajax().get("http://localhost:3016/comments/" + values.id).then(function (data) {
 			data = data.json();
 			comments.parse(data);
 			comments.setCurrentUser(user_id);
 		});
-		let image = "<img class='photo' src=" + values.cover + ">";
-		this.$$("likes").define({template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Likes: " + values.likes + "</span></div></div>"});
-		this.$$("cover").define({template: "<div class='columnSettings'>" + image + "</div>"});
-		this.$$("info").define({
-			template: "<div class='columnSettings'><div class='rowSettings'><span class='infoBodyHeader'>Title: </span>" + values.title +
-				"</div><div class='rowSettings'><span class='infoBodyHeader'>Author: </span>" + values.authorName + " " + values.authorSurname + " " + values.authorPatronymic +
-				"</div><div class='rowSettings'><span class='infoBodyHeader'>Pages: </span>" + values.pages +
-				"</div><div class='rowSettings'><span class='infoBodyHeader'>Year: </span>" + values.year +
-				"</div><div class='rowSettings'><span class='infoBodyHeader'>Genres: </span>" + genres +
-				"</div><div class='rowSettings'><span class='infoBodyHeader'>Publisher: </span>" + values.publisher +
-				"</div><div class='rowSettings'><span class='infoBodyHeader'>Country: </span>" + values.country + "</div></div>"
-		});
-		this.$$("info").refresh();
-		this.$$("likes").refresh();
+		this.$$("cover").setValue(values.cover);
+		this.$$("audio").setValue(url);
+
 		this.$$("titleOfBook").define({template: "<div class='headerInfo'>" + values.title + "</div>"});
 		this.$$("titleOfBook").refresh();
-		this.$$("cover").refresh();
 	}
 
 	$windowInfo() {
 		return this.$$("window");
 	}
+
 	hideForm() {
 		this.getRoot().hide();
 	}

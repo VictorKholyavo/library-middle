@@ -17,3 +17,7 @@
 	width: 150px;
 	text-align: center;
 }
+
+.sendButton .webix_el_box {
+	margin: 0 auto;
+}

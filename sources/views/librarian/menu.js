@@ -1,4 +1,4 @@
-import { JetView, plugins } from "webix-jet";
+import {JetView, plugins} from "webix-jet";
 import "./librarian.css";
 
 export default class LibrarianMenu extends JetView {
@@ -29,7 +29,7 @@ export default class LibrarianMenu extends JetView {
 				},
 				{
 					value: "Readers",
-					id: "librarian.readersDatatable",
+					id: "librarian.readersDatatable.datatable",
 					icon: "fas fa-users"
 				}
 			]
@@ -56,21 +56,18 @@ export default class LibrarianMenu extends JetView {
 								{},
 								{
 									view: "button",
-									value: "MAIL",
-									width: 250,
-									click: () => { webix.ajax().get("http://localhost:3016/mailing"); }
-								},
-								{
-									view: "button",
 									value: "Personal Information",
 									width: 250,
-									click: () => { this.show("personalPage"); }
+									click: () => {
+										this.show("personalPage");
+									}
 								},
 								{
 									view: "button",
 									value: "Logout",
 									width: 150,
-									click: () => {this.do_logout();
+									click: () => {
+										this.do_logout();
 										window.location.reload(true);
 									}
 								}
@@ -80,9 +77,7 @@ export default class LibrarianMenu extends JetView {
 						{
 							cols: [
 								menu,
-								{
-									$subview: true
-								}
+								{$subview: true}
 							]
 						}
 					]
@@ -92,13 +87,16 @@ export default class LibrarianMenu extends JetView {
 
 		return ui;
 	}
+
 	$getHelloTemplate() {
 		return this.$$("helloTemplate");
 	}
+
 	do_logout() {
 		const user = this.app.getService("user");
 		user.logout();
 	}
+
 	init() {
 		let username = webix.storage.local.get("UserInfo").username;
 		this.$getHelloTemplate().define({template: "Hi, " + username + ". You are librarian"});

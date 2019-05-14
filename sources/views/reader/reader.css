@@ -1,9 +1,11 @@
 .fas {
 	padding-right: 5px;
 }
+
 .hello-template {
 	vertical-align: middle;
 }
+
 .hello-template .webix_template {
 	padding: 0;
 	display: flex;
@@ -11,10 +13,15 @@
 	padding-left: 20px;
 	font-size: 16px;
 }
+
 .white-background {
 	background-color: white;
 }
 
 .radio-button label {
 	padding-left: 10px;
+}
+
+audio {
+	width: 250px;
 }

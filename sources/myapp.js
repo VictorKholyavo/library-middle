@@ -1,6 +1,7 @@
 import "./styles/app.css";
 import {JetApp, EmptyRouter, HashRouter, plugins } from "webix-jet";
 import session from "models/session";
+import "./components";
 
 export default class MyApp extends JetApp{
 	constructor(config){
@@ -12,7 +13,7 @@ export default class MyApp extends JetApp{
 			start 	: "/top",
 			routes: {
 				"library": "/reader.menu/reader.library.library"
-			},
+			}
 		};
 
 		super({ ...defaults, ...config });

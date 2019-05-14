@@ -4,6 +4,7 @@ const likes = require("./bookInfo/likes");
 const bookinfo = require("./bookInfo");
 const orders = require("./orders");
 const email = require("./email/mailing");
+const audiofile = require("./bookInfo/files/audiofiles");
 
 module.exports = {
 	books,
@@ -11,5 +12,6 @@ module.exports = {
 	likes,
 	bookinfo,
 	orders,
-	email
+	email,
+	audiofile
 };

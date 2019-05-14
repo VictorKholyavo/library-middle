@@ -1,38 +1,37 @@
 const nodemailer = require("nodemailer");
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-	nodemailer.createTestAccount((err, account) => {
-		let transporter = nodemailer.createTransport(
-			{
-				host: account.smtp.host,
-				port: account.smtp.port,
-				secure: account.smtp.secure, // true for 465, false for other ports
-				auth: {
-					user: account.user, // generated ethereal user
-					pass: account.pass // generated ethereal password
-				}
-			},
-			{
-				from: 'Nodemailer <example@nodemailer.com>'
-			}
-		);
-		let mailOptions = {
-			// from: 'victor <victor.kholyavo@gmail.com>', // sender address
-			to: "victor130997@gmail.com", // list of receivers
-			subject: "Test", // Subject line
-			text: "Hello world?", // plain text body
-			html: "<b>Hello world?</b>" // html body
-		};
-
-		transporter.sendMail(mailOptions, (error, info) => {
-			if (error) {
-				return console.log(error);
-			}
-			console.log("Message %s sent: %s", info.messageId, info.response);
-			transporter.close();
-		});
-	});
+async function main(userId, mailInfo) {
+	console.log(userId);
+	console.log(mailInfo);
+	// nodemailer.createTestAccount((err, account) => {
+	// 	let transporter = nodemailer.createTransport(
+	// 		{
+	// 			service: "gmail",
+	// 			// host: "smtp.gmail.com",
+	// 			// port: 465,
+	// 			// secure: true, // true for 465, false for other ports
+	// 			auth: {
+	// 				user: "victor130997@gmail.com", // generated ethereal user
+	// 				pass: "13091997" // generated ethereal password
+	// 			}
+	// 		}
+	// 	);
+	// 	let mailOptions = {
+	// 		from: '"victor" <victor130997@gmail.com>',
+	// 		to: "victor.kholyavo@gmail.com",
+	// 		subject: "Test",
+	// 		text: "Hello world?",
+	// 		html: "<b>Hello world?</b>"
+	// 	};
+	//
+	// 	transporter.sendMail(mailOptions, (error, info) => {
+	// 		if (error) {
+	// 			return console.log(error);
+	// 		}
+	// 		console.log("Message %s sent: %s", info.messageId, info.response);
+	// 		transporter.close();
+	// 	});
+	// });
 }
 
 module.exports = {

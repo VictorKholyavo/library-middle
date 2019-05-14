@@ -281,7 +281,7 @@ app.get("/", async (req, res) => {
 								newTextFile.save();
 							}
 							if (index > 36) {
-								let audiopath = "./public/uploads/audiofiles/" + (index+1) + ".txt";
+								let audiopath = "./public/uploads/audiofiles/" + (index+1) + ".mp3";
 								let newAudioFile = new AudioFile ({
 									bookId: book._id,
 									path: audiopath

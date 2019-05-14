@@ -249,7 +249,10 @@ export default class DataView extends JetView {
 		webix.attachEvent("onBeforeAjax",
 			function(mode, url, data, request, headers) {
 				let textSearch = root.getParam("search", true);
-				let searchfield = root.getButtonFilter().data.fieldForSearch;
+				let searchfield = "";
+				if (root.getButtonFilter().data) {
+					searchfield = root.getButtonFilter().data.fieldForSearch;
+				}
 				if (textSearch && searchfield) {
 					headers["filter"] = textSearch;
 					headers["searchfield"] = searchfield;
