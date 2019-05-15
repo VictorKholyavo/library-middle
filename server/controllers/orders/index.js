@@ -36,7 +36,6 @@ async function getAllOrders() {
 			include: [UserDetailes]
 		}, {model: Status}]
 	}).then(async (orders) => {
-		// console.log(orders[0].dataValues.user.dataValues.userdetaile.dataValues.cardnumber);
 		const getData = async () => {
 			return await Promise.all(orders.map(order => findBookForOrder(order)))
 		};

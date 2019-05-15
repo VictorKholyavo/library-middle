@@ -116,13 +116,13 @@ export default class PersonalPageView extends JetView{
 		return this.$$("form");
 	}
 	savePersonalInformation(newValues) {
-		webix.ajax().put("http://localhost:3016/users/user/:" + newValues.id, newValues).then(function () {
+		webix.ajax().put("http://localhost:3016/userinfo/" + newValues.id, newValues).then(function () {
 			webix.message({type: "success", text: "Your information has been updated"});
 		});
 	}
 	init() {
 		let form = this.$getForm();
-		webix.ajax().get("http://localhost:3016/users/user/:id").then(function (response) {
+		webix.ajax().get("http://localhost:3016/userinfo").then(function (response) {
 			response = response.json();
 			response.phones.map(function (phone, index) {
 				response["phone"+(index+1)] = phone.phone;

@@ -17,20 +17,19 @@ export default class DataView extends JetView {
 				{ id: "address", header: "Address", fillspace: true },
 				{ id: "phonesCount", header: "Phones (count)" },
 				{ id: "cardnumber", header: "Card number" },
-				{
-					id: "role", header: "Role", editor: "richselect", options: "http://localhost:3016/roles", template: (obj) => {
-						return obj.role.role;
-					}
-				},
+				// {
+				// 	id: "role", header: "Role", editor: "richselect", options: "http://localhost:3016/roles", template: (obj) => {
+				// 		console.log(obj.role);
+				// 		return obj.role.role;
+				// 	}
+				// },
 			],
-			url: "http://localhost:3016/users",
+			url: "http://localhost:3016/usersinfotoadmin",
 			save: {
-				url: "rest->http://localhost:3016/users",
+				url: "rest->http://localhost:3016/usersinfotoadmin",
 				updateFromResponse: true
 			},
 			css: "webix_shadow_medium"
 		};
-	}
-	init() {
 	}
 }

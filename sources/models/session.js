@@ -5,30 +5,31 @@ function status() {
 	}
 	return webix.ajax().headers({
 		"authorization" : "bearer " + token
-	}).post("http://localhost:3016/users/login/status")
-		.then((a) => {
-			a = a.json();
-			webix.storage.local.put("UserInfo", a);
-			return a;
+	}).post("http://localhost:3016/auth/status")
+		.then(response => {
+			response = response.json();
+			webix.storage.local.put("UserInfo", response);
+			return response;
 		});
 }
 
 function login(email, password){
-	return webix.ajax().post("http://localhost:3016/users/login", {
+	return webix.ajax().post("http://localhost:3016/auth/signin", {
 		email, password
-	}).then((a) => {
-		a = a.json();
-		webix.storage.local.put("UserInfo", a);
-		return a;
+	}).then(response => {
+		response = response.json();
+		webix.storage.local.put("UserInfo", response);
+		return response;
 	});
 }
 
 function logout() {
-	return webix.ajax().post("http://localhost:3016/users/logout")
-		.then((a) => {
+	return webix.ajax().post("http://localhost:3016/auth/signout")
+		.then(response => {
 			webix.storage.local.remove("UserInfo");
-			a = a.json();
-			return a;
+			response = response.json();
+			window.location.reload(true);
+			return response;
 		});
 }
 

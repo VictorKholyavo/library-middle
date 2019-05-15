@@ -4,6 +4,9 @@ module.exports = (sequelize, type) => {
 			type: type.INTEGER,
 			autoIncrement: true,
 			primaryKey: true
+		},
+		bookId: {
+			type: type.STRING
 		}
 	});
 };

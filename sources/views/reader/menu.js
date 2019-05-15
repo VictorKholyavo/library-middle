@@ -46,6 +46,17 @@ export default class TopView extends JetView {
 								{},
 								{
 									view: "button",
+									value: "GET",
+									width: 250,
+									click: () => {
+										webix.ajax().get("http://localhost:3016/books/popularauthors").then(response => {
+											response = response.json();
+											console.log(response);
+										});
+									}
+								},
+								{
+									view: "button",
 									value: "Personal Information",
 									width: 250,
 									click: () => {
@@ -58,7 +69,6 @@ export default class TopView extends JetView {
 									width: 150,
 									click: () => {
 										this.do_logout();
-										window.location.reload(true);
 									}
 								}
 							],

@@ -1,45 +1,46 @@
 import "./styles/app.css";
-import {JetApp, EmptyRouter, HashRouter, plugins } from "webix-jet";
+import {JetApp, EmptyRouter, HashRouter, plugins} from "webix-jet";
 import session from "models/session";
 import "./components";
 
-export default class MyApp extends JetApp{
-	constructor(config){
+export default class MyApp extends JetApp {
+	constructor(config) {
 		const defaults = {
-			id 		: APPNAME,
-			version : VERSION,
-			router 	: BUILD_AS_MODULE ? EmptyRouter : HashRouter,
-			debug 	: !PRODUCTION,
-			start 	: "/top",
+			id: APPNAME,
+			version: VERSION,
+			router: BUILD_AS_MODULE ? EmptyRouter : HashRouter,
+			debug: !PRODUCTION,
+			start: "/top",
 			routes: {
 				"library": "/reader.menu/reader.library.library"
 			}
 		};
 
-		super({ ...defaults, ...config });
+		super({...defaults, ...config});
 		this.use(plugins.User, {
 			model: session,
 		});
 
 		function getUser() {
-			return webix.ajax().sync().post("http://localhost:3016/users/login/status").response;
+			return webix.ajax().sync().post("http://localhost:3016/auth/status").response;
 		}
-		this.attachEvent("app:guard", function(url, view, nav) {
+
+		this.attachEvent("app:guard", function (url, view, nav) {
 			try {
 				let userInfo = JSON.parse(getUser());
-				switch(userInfo.role) {
+				switch (userInfo.role) {
 					case "3":
-						if (url.indexOf("/reader") !== -1 || url.indexOf("/librarian") !== -1 || url.indexOf("/top") !== -1) {
+						if (url.indexOf("/reader") !== -1 || url.indexOf("/librarian") !== -1 || url.indexOf("/top") !== -1 || url.indexOf("login") !== -1) {
 							nav.redirect = "/admin.adminMenu/admin.users"
 						}
 						break;
 					case "2":
-						if (url.indexOf("/admin") !== -1 || url.indexOf("/reader") !== -1 || url.indexOf("/top") !== -1) {
+						if (url.indexOf("/admin") !== -1 || url.indexOf("/reader") !== -1 || url.indexOf("/top") !== -1 || url.indexOf("login") !== -1) {
 							nav.redirect = "/librarian.menu/librarian.library.library"
 						}
 						break;
 					case "1":
-						if (url.indexOf("/admin") !== -1 || url.indexOf("/librarian") !== -1 || url.indexOf("/top") !== -1) {
+						if (url.indexOf("/admin") !== -1 || url.indexOf("/librarian") !== -1 || url.indexOf("/top") !== -1 || url.indexOf("login") !== -1) {
 							nav.redirect = "/reader.menu/reader.library.library"
 						}
 						break;
@@ -49,7 +50,7 @@ export default class MyApp extends JetApp{
 			}
 		});
 		webix.attachEvent("onBeforeAjax",
-			function(mode, url, data, request, headers) {
+			function (mode, url, data, request, headers) {
 				if (webix.storage.local.get("UserInfo")) {
 					let token = webix.storage.local.get("UserInfo").token;
 					headers["authorization"] = "bearer " + token;
@@ -59,6 +60,6 @@ export default class MyApp extends JetApp{
 	}
 }
 
-if (!BUILD_AS_MODULE){
-	webix.ready(() => new MyApp().render() );
+if (!BUILD_AS_MODULE) {
+	webix.ready(() => new MyApp().render());
 }

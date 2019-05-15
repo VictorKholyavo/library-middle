@@ -26,8 +26,7 @@ const statuses = [
 	{id: 1, status: "In Process"},
 	{id: 2, status: "Accept"},
 	{id: 3, status: "Declined"},
-	{id: 4, status: "Return"},
-	{id: 5, status: "Accept returning"}
+	{id: 4, status: "Return"}
 ];
 
 const bookGenres = [

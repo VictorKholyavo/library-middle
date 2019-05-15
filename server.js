@@ -4,15 +4,12 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const UsersController = require("./server/controllers/users");
-const UsersDetailesController = require("./server/controllers/usersDetailes");
 const RolesController = require("./server/controllers/roles");
 const StatusController = require("./server/controllers/status");
 const StartDataController = require("./server/controllers/startData");
 
-const GenresMongoController = require("./server/controllers/library/genre");
-
 const routes = require("./server/routes");
+const auth_routes = require("./server/routes/auth_routes");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -20,11 +17,10 @@ app.use(bodyParser.json());
 
 mongoose.connect("mongodb://localhost:27017/myapir", function (err) {
 	app.use("/", passport.authenticate("jwt", {session: false}), routes);
-	app.use("/genres", GenresMongoController);
 });
 
-app.use("/users", UsersController);
-app.use("/usersdetailes", UsersDetailesController);
+app.use("/auth", auth_routes);
+
 app.use("/roles", RolesController);
 
 app.use("/status", passport.authenticate("jwt", {session: false}), StatusController);

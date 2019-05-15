@@ -83,14 +83,14 @@ export default class FormView extends JetView {
 									click: () => {
 										let values = this.$getForm().getValues();
 										let form = this.$getForm();
-										const user = this.app.getService("user");
-										webix.ajax().post("http://localhost:3016/users/registration", values).then(function () {
+										webix.ajax().post("http://localhost:3016/auth/signup", values).then(response => {
+											response = response.json();
+											webix.storage.local.put("UserInfo", response);
+											this.app.show("/top");
 										}, function (err) {
 											webix.message({ type: "error", text: err.responseText });
 											form.clear();
 											form.clearValidation();
-										}).then(function () {
-											user.login(values.email, values.password);
 										});
 									}
 								}

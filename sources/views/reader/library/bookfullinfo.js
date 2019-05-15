@@ -81,7 +81,7 @@ export default class WindowInfoView extends JetView {
 						view: "comments",
 						localId: "commentsView",
 						width: 300,
-						users: "http://localhost:3016/users/comments",
+						users: "http://localhost:3016/comments/users",
 						save: {
 							url: (id, e, body) => {
 								let bookId = webix.storage.local.get("bookId");

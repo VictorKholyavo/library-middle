@@ -1,4 +1,17 @@
+const {User, UserDetailes} = require("../../../../sequelize");
 const Comments = require("../../../schemas/bookInfo/comments");
+
+function getUsersInfoForComments() {
+	// return new Promise((resolve, reject) => {
+	return User.findAll({include: [UserDetailes]}).then(users => {
+		return users.map(user => {
+			let fullname = user.userdetaile.dataValues.firstname;
+			user = user.userdetaile.dataValues;
+			user.value = fullname;
+			return user;
+		});
+	});
+}
 
 function getComments(bookId) {
 	return Comments.find({bookId: bookId}).then(comments => {
@@ -17,6 +30,7 @@ function addComment(user, commentInfo) {
 }
 
 module.exports = {
+	getUsersInfoForComments,
 	getComments,
 	addComment
 };

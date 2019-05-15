@@ -1,4 +1,4 @@
-import { JetView, plugins } from "webix-jet";
+import {JetView, plugins} from "webix-jet";
 
 export default class TopView extends JetView {
 	config() {
@@ -11,7 +11,7 @@ export default class TopView extends JetView {
 			select: true,
 			template: "<span class='webix_icon #icon#'></span> #value# ",
 			data: [
-				{ value: "Users", id: "admin.users", icon: "wxi-columns" }
+				{value: "Users", id: "admin.users", icon: "wxi-columns"}
 			]
 		};
 
@@ -30,9 +30,16 @@ export default class TopView extends JetView {
 							margin: 20,
 							paddingX: 10,
 							cols: [
-								{ view: "template", localId: "helloTemplate", template: " ", width: 240},
+								{view: "template", localId: "helloTemplate", template: " ", width: 240},
 								{},
-								{ view: "button", value: "Logout", width: 150, click: () => {this.do_logout(); window.location.reload(true); }}
+								{
+									view: "button",
+									value: "Logout",
+									width: 150,
+									click: () => {
+										this.do_logout();
+									}
+								}
 							],
 							css: "webix_dark"
 						},
@@ -40,9 +47,7 @@ export default class TopView extends JetView {
 							css: "webix_shadow_medium",
 							cols: [
 								menu,
-								{
-									$subview: true
-								}
+								{$subview: true}
 							]
 						}
 					]
@@ -58,15 +63,16 @@ export default class TopView extends JetView {
 
 		return ui;
 	}
+
 	$getHelloTemplate() {
 		return this.$$("helloTemplate");
 	}
+
 	do_logout() {
 		const user = this.app.getService("user");
-		user.logout().catch(function () {
-			//error handler
-		});
+		user.logout();
 	}
+
 	init() {
 		let username = webix.storage.local.get("UserInfo").username;
 		this.$getHelloTemplate().define({template: "Hi, " + username + ". You are admin"});
