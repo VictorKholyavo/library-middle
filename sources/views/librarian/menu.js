@@ -54,13 +54,6 @@ export default class LibrarianMenu extends JetView {
 									width: 240
 								},
 								{},
-								// {
-								// 	view: "button",
-								// 	value: "GET LOCALSTORAGE",
-								// 	click() {
-								// 		console.log(webix.storage.local.get("UserInfo"));
-								// 	}
-								// },
 								{
 									view: "button",
 									value: "Personal Information",

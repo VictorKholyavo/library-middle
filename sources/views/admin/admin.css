@@ -1,0 +1,13 @@
+.hello-template .webix_template {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-size: 16px;
+}
+
+.header-template {
+    text-align: center;
+    font-size: 20px;
+    padding: 8px 0;
+}

@@ -6,6 +6,7 @@ const PhonesModel = require("./server/models/phones");
 const UserOrderModel = require("./server/models/userOrder");
 const StatusModel = require("./server/models/status");
 const SearchResultsModel = require("./server/models/searchResults");
+const SettingsModel = require("./server/models/settings");
 
 const sequelize = new Sequelize("library", "root", "", {
 	host: "localhost",
@@ -40,6 +41,9 @@ UserOrder.belongsTo(User);
 // SEARCH RESULTS //
 const SearchResults = SearchResultsModel(sequelize, Sequelize);
 
+// SETTINGS //
+const Settings = SettingsModel(sequelize, Sequelize);
+
 sequelize.sync()
 	.then(() => {
 		console.log("Database & tables created!");
@@ -52,5 +56,6 @@ module.exports = {
 	Phones,
 	UserOrder,
 	Status,
-	SearchResults
+	SearchResults,
+	Settings
 };

@@ -12,7 +12,8 @@ export default class MyApp extends JetApp {
 			debug: !PRODUCTION,
 			start: "/top",
 			routes: {
-				"library": "/reader.menu/reader.library.library"
+				"library": "/reader.menu/reader.library.library",
+				"users": "/admin.menu/admin.users"
 			}
 		};
 
@@ -31,7 +32,7 @@ export default class MyApp extends JetApp {
 				switch (userInfo.role) {
 					case "3":
 						if (url.indexOf("/reader") !== -1 || url.indexOf("/librarian") !== -1 || url.indexOf("/top") !== -1 || url.indexOf("login") !== -1) {
-							nav.redirect = "/admin.adminMenu/admin.users"
+							nav.redirect = "/admin.menu/admin.users"
 						}
 						break;
 					case "2":

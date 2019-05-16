@@ -1,4 +1,5 @@
 import {JetView, plugins} from "webix-jet";
+import "./admin.css";
 
 export default class TopView extends JetView {
 	config() {
@@ -11,18 +12,16 @@ export default class TopView extends JetView {
 			select: true,
 			template: "<span class='webix_icon #icon#'></span> #value# ",
 			data: [
-				{value: "Users", id: "admin.users", icon: "wxi-columns"}
+				{value: "Users", id: "admin.users", icon: "wxi-columns"},
+				{value: "Settings", id: "admin.settings", icon: "fas fa-cogs"}
 			]
 		};
 
 		const ui = {
 			type: "clean",
-			paddingX: 5,
 			css: "app_layout",
 			rows: [
 				{
-					paddingX: 5,
-					paddingY: 10,
 					rows: [
 						{
 							type: "toolbar",
@@ -30,7 +29,14 @@ export default class TopView extends JetView {
 							margin: 20,
 							paddingX: 10,
 							cols: [
-								{view: "template", localId: "helloTemplate", template: " ", width: 240},
+								{
+									view: "template",
+									localId: "helloTemplate",
+									css: "hello-template",
+									template: " ",
+									width: 300,
+									borderless: true
+								},
 								{},
 								{
 									view: "button",
@@ -44,23 +50,15 @@ export default class TopView extends JetView {
 							css: "webix_dark"
 						},
 						{
-							css: "webix_shadow_medium",
 							cols: [
 								menu,
 								{$subview: true}
 							]
 						}
 					]
-				},
-				{
-					type: "wide",
-					paddingY: 10,
-					paddingX: 5,
-					rows: []
 				}
 			]
 		};
-
 		return ui;
 	}
 
