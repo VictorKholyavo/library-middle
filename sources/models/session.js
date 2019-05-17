@@ -1,3 +1,5 @@
+import {state} from "../helpers/state.js";
+
 function status() {
 	let token = null;
 	if (webix.storage.local.get("UserInfo")) {
@@ -19,6 +21,7 @@ function login(email, password){
 	}).then(response => {
 		response = response.json();
 		webix.storage.local.put("UserInfo", response);
+		// state.setState(response);
 		return response;
 	});
 }

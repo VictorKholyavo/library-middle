@@ -1,5 +1,6 @@
 import "./styles/app.css";
 import {JetApp, EmptyRouter, HashRouter, plugins} from "webix-jet";
+import {state} from "helpers/state.js";
 import session from "models/session";
 import "./components";
 
@@ -18,12 +19,15 @@ export default class MyApp extends JetApp {
 		};
 
 		super({...defaults, ...config});
+		this.use(state);
 		this.use(plugins.User, {
 			model: session,
 		});
 
 		function getUser() {
-			return webix.ajax().sync().post("http://localhost:3016/auth/status").response;
+			const userInfo =  webix.ajax().sync().post("http://localhost:3016/auth/status").response;
+			// root.getService("state").setState(userInfo);
+			return userInfo;
 		}
 
 		this.attachEvent("app:guard", function (url, view, nav) {
@@ -63,4 +67,5 @@ export default class MyApp extends JetApp {
 
 if (!BUILD_AS_MODULE) {
 	webix.ready(() => new MyApp().render());
+
 }
